@@ -45,10 +45,11 @@
 
             {{-- Search Bar --}}
             <div class="mt-6 lg:-mt-6 w-full lg:max-w-[90%] mx-auto">
-                <form action="" method="GET" class="relative">
+                <form action="" method="GET" class="relative" id="search-form">
                     <input
                         type="text"
                         name="q"
+                        value="{{ request('q') }}"
                         placeholder="Temukan mitra industri di sini…"
                         class="w-full pl-10 sm:pl-12 pr-12 sm:pr-14 py-3 sm:py-3.5 rounded-lg bg-gray-200 text-sm sm:text-base text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#3C5148]"
                     >
@@ -97,7 +98,7 @@
     </section>
 
     {{-- List Perusahaan Section --}}
-    <section class="w-full px-4 sm:px-6 lg:px-8 mt-10 sm:mt-12 lg:mt-16 mb-10 sm:mb-12 lg:mb-16">
+    <section id="company-section" class="w-full px-4 sm:px-6 lg:px-8 mt-10 sm:mt-12 lg:mt-16 mb-10 sm:mb-12 lg:mb-16">
         <div class="max-w-7xl mx-auto">
             {{-- Header --}}
             <h2 class="text-white text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6">List Perusahaan</h2>
@@ -115,19 +116,24 @@
             </div>
 
             {{-- Company Cards Grid --}}
-            <div class="space-y-4 sm:space-y-6">
+            <div id="company-list" class="space-y-4 sm:space-y-6">
                 @foreach($mitras as $mitra)
                     {{-- Desktop/Tablet Layout --}}
-                    <div class="company-card hidden sm:flex items-center w-full justify-center mx-auto" data-category="{{ $mitra->jurusan->kode_jurusan ?? 'all' }}">
+                    <div
+                        class="company-card relative hidden sm:flex items-center w-full justify-center mx-auto"
+                        data-category="{{ $mitra->jurusan->kode_jurusan ?? 'all' }}"
+                        data-major="{{ Str::lower($mitra->jurusan->kode_jurusan ?? '') }}"
+                        data-name="{{ Str::lower($mitra->name) }}"
+                        data-desc="{{ Str::lower(Str::limit($mitra->deskripsi, 500)) }}"
+                        data-addr="{{ Str::lower($mitra->alamat) }}"
+                    >
                         {{-- Lingkaran logo --}}
                         <div class="bg-white rounded-full shadow-xl w-32 h-32 md:w-40 md:h-40 lg:w-[200px] lg:h-[200px] flex items-center justify-center z-10 absolute left-0">
-                            <img src="{{ $mitra->image 
-        ? asset('images/'.$mitra->image) 
-        : asset('images/gama.png') }}" alt="{{ $mitra->name }} Logo" class="w-20 h-20 md:w-28 md:h-28 lg:w-[140px] lg:h-[140px] object-contain rounded-full">
+                            <img src="{{ $mitra->image ? asset('images/'.$mitra->image) : asset('images/gama.png') }}" alt="{{ $mitra->name }} Logo" class="w-20 h-20 md:w-28 md:h-28 lg:w-[140px] lg:h-[140px] object-contain rounded-full">
                         </div>
 
                         {{-- Kartu perusahaan --}}
-                        <div class="bg-white rounded-2xl shadow-md w-full min-h-[160px] md:min-h-[180px] lg:h-[210px] pl-20 md:pl-28 lg:pl-[175px] pr-6 md:pr-8 lg:pr-10 py-6 flex flex-col justify-center relative overflow-hidden ml-16 md:ml-20 lg:ml-[110px]">
+                        <div class="bg-white rounded-2xl shadow-md w-full min-h-[160px] md:min_h-[180px] lg:h-[210px] pl-20 md:pl-28 lg:pl-[175px] pr-6 md:pr-8 lg:pr-10 py-6 flex flex-col justify-center relative overflow-hidden ml-16 md:ml-20 lg:ml-[110px]">
                             <h2 class="text-base md:text-lg lg:text-xl font-bold text-black pr-24 md:pr-32">{{ $mitra->name }}</h2>
                             <p class="text-gray-500 text-xs md:text-sm lg:text-base mt-2 leading-relaxed line-clamp-2 pr-24 md:pr-32">
                                 {{ $mitra->deskripsi }}
@@ -156,13 +162,18 @@
                     </div>
 
                     {{-- Mobile Layout --}}
-                    <div class="company-card sm:hidden block bg-white rounded-2xl shadow-lg overflow-hidden" data-category="{{ $mitra->jurusan->kode_jurusan ?? 'all' }}">
+                    <div
+                        class="company-card sm:hidden block bg-white rounded-2xl shadow-lg overflow-hidden"
+                        data-category="{{ $mitra->jurusan->kode_jurusan ?? 'all' }}"
+                        data-major="{{ Str::lower($mitra->jurusan->kode_jurusan ?? '') }}"
+                        data-name="{{ Str::lower($mitra->name) }}"
+                        data-desc="{{ Str::lower(Str::limit($mitra->deskripsi, 500)) }}"
+                        data-addr="{{ Str::lower($mitra->alamat) }}"
+                    >
                         {{-- Logo Section --}}
                         <div class="bg-[#3f544a] p-4 flex justify-center items-center">
                             <div class="bg-white rounded-full shadow-xl w-24 h-24 flex items-center justify-center">
-                                <img src="{{ $mitra->image 
-        ? asset('images/'.$mitra->image) 
-        : asset('images/gama.png') }}" alt="{{ $mitra->name }} Logo" class="w-16 h-16 object-contain rounded-full">
+                                <img src="{{ $mitra->image ? asset('images/'.$mitra->image) : asset('images/gama.png') }}" alt="{{ $mitra->name }} Logo" class="w-16 h-16 object-contain rounded-full">
                             </div>
                         </div>
 
@@ -197,6 +208,11 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+
+            {{-- Empty state (disembunyikan default) --}}
+            <div id="empty-state" class="text-white/90 text-center text-sm sm:text-base mt-6 hidden">
+                Tidak ada hasil yang cocok.
             </div>
         </div>
     </section>
@@ -233,61 +249,91 @@
                 prevEl: '.swiper-button-prev',
             },
             breakpoints: {
-                375: {
-                    slidesPerView: 1.2,
-                    spaceBetween: 16,
-                },
-                480: {
-                    slidesPerView: 1.5,
-                    spaceBetween: 16,
-                },
-                640: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
-                },
-                768: {
-                    slidesPerView: 2.5,
-                    spaceBetween: 24,
-                },
-                1024: {
-                    slidesPerView: 3.5,
-                    spaceBetween: 30,
-                },
-                1280: {
-                    slidesPerView: 4,
-                    spaceBetween: 30,
-                },
+                375: { slidesPerView: 1.2, spaceBetween: 16 },
+                480: { slidesPerView: 1.5, spaceBetween: 16 },
+                640: { slidesPerView: 2, spaceBetween: 20 },
+                768: { slidesPerView: 2.5, spaceBetween: 24 },
+                1024:{ slidesPerView: 3.5, spaceBetween: 30 },
+                1280:{ slidesPerView: 4, spaceBetween: 30 },
             },
         });
 
-        // Filter functionality
-        const filterBtns = document.querySelectorAll('.filter-btn');
+        // ===========================
+        //  FILTER + SEARCH (FULL)
+        // ===========================
+        const searchForm   = document.getElementById('search-form');
+        const searchInput  = searchForm?.querySelector('input[name="q"]');
+        const filterBtns   = document.querySelectorAll('.filter-btn');
         const companyCards = document.querySelectorAll('.company-card');
+        const emptyStateEl = document.getElementById('empty-state');
 
+        let activeCategory = 'all';
+
+        function debounce(fn, delay = 200) {
+            let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), delay); };
+        }
+
+        function applyFilters() {
+            const q = (searchInput?.value || '').trim().toLowerCase();
+            let visibleCount = 0;
+
+            companyCards.forEach(card => {
+                const category = card.getAttribute('data-category') || 'all';
+                const name  = card.getAttribute('data-name')  || '';
+                const desc  = card.getAttribute('data-desc')  || '';
+                const addr  = card.getAttribute('data-addr')  || '';
+                const major = card.getAttribute('data-major') || '';
+
+                const matchCategory = (activeCategory === 'all') || (category === activeCategory);
+                const matchQuery = q === '' || name.includes(q) || desc.includes(q) || addr.includes(q) || major.includes(q);
+
+                const isShow = matchCategory && matchQuery;
+                card.style.display = isShow ? '' : 'none';
+                if (isShow) {
+                    visibleCount++;
+                    card.classList.add('animate-fade-in');
+                } else {
+                    card.classList.remove('animate-fade-in');
+                }
+            });
+
+            emptyStateEl.classList.toggle('hidden', visibleCount > 0);
+        }
+
+        // tombol jurusan
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Remove active class from all buttons
                 filterBtns.forEach(b => {
                     b.classList.remove('active', 'bg-[#678E4D]', 'text-white');
                     b.classList.add('bg-[#D9D9D9]', 'text-[#2D3E34]');
                 });
-
-                // Add active class to clicked button
                 btn.classList.add('active', 'bg-[#678E4D]', 'text-white');
                 btn.classList.remove('bg-[#D9D9D9]', 'text-[#2D3E34]');
 
-                const filterValue = btn.getAttribute('data-filter');
-
-                companyCards.forEach(card => {
-                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-                        card.style.display = '';
-                        card.classList.add('animate-fade-in');
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+                activeCategory = btn.getAttribute('data-filter') || 'all';
+                applyFilters();
             });
         });
+
+        // cegah reload saat submit
+        if (searchForm) {
+            searchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                applyFilters();
+                // Opsional sinkron URL:
+                // const params = new URLSearchParams(window.location.search);
+                // params.set('q', searchInput.value);
+                // window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
+            });
+        }
+
+        // live search
+        if (searchInput) {
+            searchInput.addEventListener('input', debounce(applyFilters, 200));
+        }
+
+        // init pertama kali (pakai nilai q dari URL jika ada)
+        applyFilters();
     </script>
 
     <style>
@@ -297,51 +343,17 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
+        .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
 
-        .animate-fade-in {
-            animation: fadeIn 0.3s ease-in-out;
-        }
+        .line-clamp-1 { display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+        .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+        .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
 
-        /* Ensure text doesn't overflow */
-        .line-clamp-1 {
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .line-clamp-3 {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* Smooth transitions */
-        * {
-            transition: none;
-        }
-
-        .filter-btn,
-        .company-card {
-            transition: all 0.3s ease;
-        }
+        * { transition: none; }
+        .filter-btn, .company-card { transition: all 0.3s ease; }
     </style>
 
     {{-- Tambahan script per-halaman --}}
