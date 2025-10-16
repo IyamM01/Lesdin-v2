@@ -152,7 +152,7 @@
             <div id="company-list" class="space-y-4 sm:space-y-6">
                 @foreach($mitras as $mitra)
                     {{-- Desktop/Tablet Layout --}}
-                    <div
+                    <a href="{{ route('mitra.show', $mitra->id) }}"
                         class="company-card relative hidden sm:flex items-center w-full justify-center mx-auto hover:scale-105 transition-transform duration-300"
                         data-category="{{ $mitra->jurusan->kode_jurusan ?? 'all' }}"
                         data-major="{{ Str::lower($mitra->jurusan->kode_jurusan ?? '') }}"
@@ -192,10 +192,10 @@
                             {{-- Lengkungan kiri ke dalam --}}
                             <div class="absolute top-0 left-0 h-full w-16 md:w-20 lg:w-[100px] bg-[#3f544a] rounded-r-full"></div>
                         </div>
-                    </div>
+                    </a>
 
                     {{-- Mobile Layout --}}
-                    <div
+                    <a href="{{ route('mitra.show', $mitra->id) }}"
                         class="company-card sm:hidden block bg-white rounded-2xl shadow-lg overflow-hidden"
                         data-category="{{ $mitra->jurusan->kode_jurusan ?? 'all' }}"
                         data-major="{{ Str::lower($mitra->jurusan->kode_jurusan ?? '') }}"
@@ -239,7 +239,7 @@
                                 <span class="text-sm flex-1">{{ $mitra->alamat }}</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
 
