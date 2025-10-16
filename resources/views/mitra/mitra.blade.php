@@ -9,10 +9,15 @@
             class="w-full h-full object-cover"
         >
     </div>
+    
 
     <div class="container mx-auto px-4 -mt-20 relative z-10">
         <!-- Company Info Card -->
         <div class="bg-gray-100 rounded-2xl shadow-lg p-6 md:p-8 mb-8">
+            <a href="{{ route('mitra.index') }}"
+            class="inline-flex items-center gap-2 px-3 py-2 mb-4 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+            </a>
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
                 <h1 class="text-2xl md:text-3xl font-bold text-[#2E3C35] mb-2 md:mb-0">PT Cargloss</h1>
                 <div class="flex items-center text-[#2E3C35]">
@@ -54,70 +59,82 @@
             
             <div class="space-y-3">
                 <!-- Accordion Item 1 -->
-                <div class="border border-[#4A5A55] rounded-xl overflow-hidden">
-                    <button 
-                        onclick="toggleAccordion('accordion1')"
-                        class="w-full bg-[#3C5148] text-white px-6 py-4 flex justify-between items-center hover:bg-[#32453D] transition"
-                    >
-                        <span class="font-medium text-sm">Pelaksana Maintenance</span>
-                        <svg id="icon1" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </button>
-                    <div id="accordion1" class="hidden bg-white px-6 py-4">
-                        <p class="text-sm text-[#2E3C35]">Deskripsi pekerjaan untuk posisi Pelaksana Maintenance di PT Cargloss.</p>
-                    </div>
-                </div>
+                    <div class="border border-[#4A5A55] rounded-xl overflow-hidden">
+                        <button 
+                            onclick="toggleAccordion('accordion1')"
+                            class="w-full bg-[#3C5148] text-white px-6 py-4 flex justify-between items-center hover:bg-[#32453D] transition"
+                        >
+                            <span class="font-medium text-sm">Pelaksana Maintenance</span>
+                            <svg id="icon1" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
 
-                <!-- Accordion Item 2 -->
-                <div class="border border-[#4A5A55] rounded-xl overflow-hidden">
-                    <button 
-                        onclick="toggleAccordion('accordion2')"
-                        class="w-full bg-[#3C5148] text-white px-6 py-4 flex justify-between items-center hover:bg-[#32453D] transition"
-                    >
-                        <span class="font-medium text-sm">Pelaksana Maintenance</span>
-                        <svg id="icon2" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </button>
-                    <div id="accordion2" class="hidden bg-white px-6 py-4">
-                        <p class="text-sm text-[#2E3C35]">Deskripsi pekerjaan untuk posisi Pelaksana Maintenance di PT Cargloss.</p>
+                        <div id="accordion1" class="max-h-0 overflow-hidden bg-white px-6 transition-all duration-300">
+                            <p class="text-sm text-[#2E3C35] py-4">
+                                Deskripsi pekerjaan untuk posisi Pelaksana Maintenance di PT Cargloss.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Accordion Item 3 -->
-                <div class="border border-[#4A5A55] rounded-xl overflow-hidden">
-                    <button 
-                        onclick="toggleAccordion('accordion3')"
-                        class="w-full bg-[#3C5148] text-white px-6 py-4 flex justify-between items-center hover:bg-[#32453D] transition"
-                    >
-                        <span class="font-medium text-sm">Pelaksana Maintenance</span>
-                        <svg id="icon3" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </button>
-                    <div id="accordion3" class="hidden bg-white px-6 py-4">
-                        <p class="text-sm text-[#2E3C35]">Deskripsi pekerjaan untuk posisi Pelaksana Maintenance di PT Cargloss.</p>
+                    <!-- Accordion Item 2 -->
+                    <div class="border border-[#4A5A55] rounded-xl overflow-hidden">
+                        <button 
+                            onclick="toggleAccordion('accordion2')"
+                            class="w-full bg-[#3C5148] text-white px-6 py-4 flex justify-between items-center hover:bg-[#32453D] transition"
+                        >
+                            <span class="font-medium text-sm">Pelaksana Maintenance</span>
+                            <svg id="icon2" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+
+                        <div id="accordion2" class="max-h-0 overflow-hidden bg-white px-6 transition-all duration-300">
+                            <p class="text-sm text-[#2E3C35] py-4">
+                                Deskripsi pekerjaan untuk posisi Pelaksana Maintenance di PT Cargloss.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Accordion Item 4 -->
-                <div class="border border-[#4A5A55] rounded-xl overflow-hidden">
-                    <button 
-                        onclick="toggleAccordion('accordion4')"
-                        class="w-full bg-[#3C5148] text-white px-6 py-4 flex justify-between items-center hover:bg-[#32453D] transition"
-                    >
-                        <span class="font-medium text-sm">Pelaksana Maintenance</span>
-                        <svg id="icon4" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </button>
-                    <div id="accordion4" class="hidden bg-white px-6 py-4">
-                        <p class="text-sm text-[#2E3C35]">Deskripsi pekerjaan untuk posisi Pelaksana Maintenance di PT Cargloss.</p>
+                    <!-- Accordion Item 3 -->
+                    <div class="border border-[#4A5A55] rounded-xl overflow-hidden">
+                        <button 
+                            onclick="toggleAccordion('accordion3')"
+                            class="w-full bg-[#3C5148] text-white px-6 py-4 flex justify-between items-center hover:bg-[#32453D] transition"
+                        >
+                            <span class="font-medium text-sm">Pelaksana Maintenance</span>
+                            <svg id="icon3" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+
+                        <div id="accordion3" class="max-h-0 overflow-hidden bg-white px-6 transition-all duration-300">
+                            <p class="text-sm text-[#2E3C35] py-4">
+                                Deskripsi pekerjaan untuk posisi Pelaksana Maintenance di PT Cargloss.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Accordion Item 4 -->
+                    <div class="border border-[#4A5A55] rounded-xl overflow-hidden">
+                        <button 
+                            onclick="toggleAccordion('accordion4')"
+                            class="w-full bg-[#3C5148] text-white px-6 py-4 flex justify-between items-center hover:bg-[#32453D] transition"
+                        >
+                            <span class="font-medium text-sm">Pelaksana Maintenance</span>
+                            <svg id="icon4" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+
+                        <div id="accordion4" class="max-h-0 overflow-hidden bg-white px-6 transition-all duration-300">
+                            <p class="text-sm text-[#2E3C35] py-4">
+                                Deskripsi pekerjaan untuk posisi Pelaksana Maintenance di PT Cargloss.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         <!-- Kontak -->
         <div class="bg-gray-100 rounded-2xl shadow-lg p-6 md:p-8 mb-8">
@@ -181,20 +198,24 @@
 function toggleAccordion(id) {
     const content = document.getElementById(id);
     const icon = document.getElementById('icon' + id.replace('accordion', ''));
-    
-    // Close all other accordions
+
+    // Tutup semua accordion lain
     document.querySelectorAll('[id^="accordion"]').forEach(el => {
-        if (el.id !== id && !el.classList.contains('hidden')) {
-            el.classList.add('hidden');
+        if (el.id !== id && el.style.maxHeight) {
+            el.style.maxHeight = null; 
             const otherIcon = document.getElementById('icon' + el.id.replace('accordion', ''));
-            if (otherIcon) {
-                otherIcon.classList.remove('rotate-180');
-            }
+            if (otherIcon) otherIcon.classList.remove('rotate-180');
         }
     });
-    
-    // Toggle current accordion
-    content.classList.toggle('hidden');
+
+    // Toggle accordion yang diklik
+    if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+    } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+    }
+
+    // Animasi icon
     icon.classList.toggle('rotate-180');
 }
 </script>

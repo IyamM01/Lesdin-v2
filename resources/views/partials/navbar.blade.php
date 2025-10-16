@@ -7,7 +7,9 @@
   <nav class="font-poppins bg-white/95 backdrop-blur rounded-full shadow-xl px-4 sm:px-6 py-3 flex items-center w-full max-w-7xl mx-auto justify-between">
     {{-- Logo Sekolah + Partner --}}
     <div class="flex items-center gap-5 flex-shrink-0">
-      <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo Sekolah" class="h-10 sm:h-12 object-contain">
+      <a href="{{ route('index') }}" class="block">
+        <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo Sekolah" class="h-10 sm:h-12 object-contain">
+      </a>
       <img src="{{ asset('images/logo-partner.png') }}" alt="Logo Partner" class="h-7 sm:h-9 lg:h-10 object-contain">
     </div>
 

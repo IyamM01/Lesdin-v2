@@ -26,7 +26,7 @@
                 <option value="ditolak" {{ request('status') === 'ditolak' ? 'selected' : '' }}>Ditolak</option>
                 <option value="selesai" {{ request('status') === 'selesai' ? 'selected' : '' }}>Selesai</option>
             </select>
-            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+            <button type="submit" class="px-4 py-2 bg-[#3C5148] text-white rounded-lg hover:bg-blue-700 transition">
                 Filter
             </button>
         </form>
@@ -66,27 +66,27 @@
                                         <span class="font-medium">1.</span>
                                         <span class="text-gray-900">{{ $registration->mitra1->name }}</span>
                                         @if($registration->mitra_diterima_id === $registration->mitra_1_id)
-                                            <span class="px-2 py-0.5 text-xs font-semibold text-green-800 bg-green-100 rounded-full">✓ Diterima</span>
+                                            <span class="px-2 py-0.5 text-white bg-[#678E4D] text-xs font-semibold rounded-full">✓ Diterima</span>
                                         @endif
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <span class="font-medium">2.</span>
                                         <span class="text-gray-900">{{ $registration->mitra2->name }}</span>
                                         @if($registration->mitra_diterima_id === $registration->mitra_2_id)
-                                            <span class="px-2 py-0.5 text-xs font-semibold text-green-800 bg-green-100 rounded-full">✓ Diterima</span>
+                                            <span class="px-2 py-0.5 text-white bg-[#678E4D] text-xs font-semibold rounded-full">✓ Diterima</span>
                                         @endif
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($registration->status === 'proses')
-                                    <span class="px-3 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">Menunggu</span>
+                                    <span class="px-3 py-1 text-xs font-semibold text-white bg-[#FEBC2F] rounded-full">Menunggu</span>
                                 @elseif($registration->status === 'diterima')
-                                    <span class="px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">Diterima</span>
+                                    <span class="px-3 py-1 text-xs font-semibold text-white bg-[#678E4D] rounded-full">Diterima</span>
                                 @elseif($registration->status === 'ditolak')
-                                    <span class="px-3 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">Ditolak</span>
+                                    <span class="px-3 py-1 text-xs font-semibold text-white bg-[#C83333] rounded-full">Ditolak</span>
                                 @elseif($registration->status === 'selesai')
-                                    <span class="px-3 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full">Selesai</span>
+                                    <span class="px-3 py-1 text-xs font-semibold text-white bg-[#678E4D] rounded-full">Selesai</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

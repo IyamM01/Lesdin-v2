@@ -62,7 +62,7 @@
             </div>
             <div class="mt-4">
                 <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div class="bg-purple-600 h-2 rounded-full" style="width: {{ $belumPkl > 0 ? ($belumPkl / ($belumPkl + $sedangPkl + $selesaiPkl)) * 100 : 0 }}%"></div>
+                    <div class="bg-[#678E4D] h-2 rounded-full" style="width: {{ $belumPkl > 0 ? ($belumPkl / ($belumPkl + $sedangPkl + $selesaiPkl)) * 100 : 0 }}%"></div>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
             </div>
             <div class="mt-4">
                 <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div class="bg-purple-600 h-2 rounded-full" style="width: {{ ($belumPkl + $sedangPkl + $selesaiPkl) > 0 ? ($sedangPkl / ($belumPkl + $sedangPkl + $selesaiPkl)) * 100 : 0 }}%"></div>
+                    <div class="bg-[#678E4D] h-2 rounded-full" style="width: {{ ($belumPkl + $sedangPkl + $selesaiPkl) > 0 ? ($sedangPkl / ($belumPkl + $sedangPkl + $selesaiPkl)) * 100 : 0 }}%"></div>
                 </div>
             </div>
         </div>
@@ -110,7 +110,7 @@
             </div>
             <div class="mt-4">
                 <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div class="bg-red-600 h-2 rounded-full" style="width: {{ ($belumPkl + $sedangPkl + $selesaiPkl) > 0 ? ($selesaiPkl / ($belumPkl + $sedangPkl + $selesaiPkl)) * 100 : 0 }}%"></div>
+                    <div class="bg-[#C83333] h-2 rounded-full" style="width: {{ ($belumPkl + $sedangPkl + $selesaiPkl) > 0 ? ($selesaiPkl / ($belumPkl + $sedangPkl + $selesaiPkl)) * 100 : 0 }}%"></div>
                 </div>
             </div>
         </div>
@@ -130,7 +130,7 @@
                 {
                     label: 'PT Disetujui',
                     data: @json($pendaftaranData['disetujui']),
-                    borderColor: 'rgb(59, 130, 246)',
+                    borderColor: '#3b82f6ff',
                     backgroundColor: 'rgba(59, 130, 246, 0.1)',
                     tension: 0.4,
                     fill: true

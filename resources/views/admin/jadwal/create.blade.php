@@ -101,7 +101,7 @@
             <!-- Tombol Submit -->
             <div class="flex gap-3 pt-4">
                 <button type="submit" 
-                        class="flex-1 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+                        class="flex-1 px-6 py-3 bg-[#3C5148] text-white font-semibold rounded-lg hover:bg-blue-700 transition">
                     Simpan Jadwal
                 </button>
                 <a href="{{ route('admin.jadwal.index') }}"

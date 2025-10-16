@@ -243,7 +243,7 @@
                         @csrf
                         <button type="submit" 
                                 onclick="return confirm('Tandai PKL siswa ini sudah selesai?')"
-                                class="w-full px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+                                class="w-full px-4 py-3 bg-[#3C5148] text-white font-semibold rounded-lg hover:bg-blue-700 transition">
                             Tandai PKL Selesai
                         </button>
                     </form>
