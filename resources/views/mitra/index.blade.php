@@ -88,7 +88,7 @@
 
           <div class="swiper-slide">
             <a href="{{ route('berita.show', $berita->id) }}"
-               class="block bg-white rounded-xl shadow-lg overflow-hidden text-gray-800 hover:scale-105 transition-transform duration-300 h-72 sm:h-80">
+               class="block bg-white rounded-xl shadow-lg overflow-hidden text-gray-800">
               
               {{-- Gambar --}}
               <div class="relative w-full h-32 sm:h-36">
