@@ -26,9 +26,44 @@ class Mitra extends Model
         return $this->belongsTo(Jurusan::class);
     }
 
-    // Relasi ke Registrasi
-    public function registrations()
+    // Relasi ke Registrasi sebagai pilihan 1
+    public function registrationsPilihan1()
     {
-        return $this->hasMany(Registration::class);
+        return $this->hasMany(Registration::class, 'mitra_1_id');
+    }
+
+    // Relasi ke Registrasi sebagai pilihan 2
+    public function registrationsPilihan2()
+    {
+        return $this->hasMany(Registration::class, 'mitra_2_id');
+    }
+
+    // Relasi ke Registrasi yang diterima
+    public function registrationsDiterima()
+    {
+        return $this->hasMany(Registration::class, 'mitra_diterima_id');
+    }
+
+    // Relasi ke Jadwal Pendaftaran
+    public function jadwalPendaftaran()
+    {
+        return $this->hasOne(JadwalPendaftaran::class);
+    }
+
+    /**
+     * Get jadwal pendaftaran yang aktif untuk mitra ini
+     */
+    public function getJadwalAktifAttribute()
+    {
+        return $this->jadwalPendaftaran()->active()->first();
+    }
+
+    /**
+     * Cek apakah mitra sedang buka pendaftaran
+     */
+    public function isBukaPendaftaran()
+    {
+        $jadwal = $this->jadwalPendaftaran;
+        return $jadwal && $jadwal->isActive();
     }
 }

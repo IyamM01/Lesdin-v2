@@ -40,8 +40,32 @@
                     </div>
                 @endif
 
-                <form action="{{ route('daftar-pkl.update-siswa') }}" method="POST" class="space-y-5">
-                    @csrf
+                @if(!$isPendaftaranBuka)
+                    <!-- Pesan Pendaftaran Ditutup -->
+                    <div class="bg-yellow-50 border-2 border-yellow-400 rounded-xl p-8 text-center">
+                        <div class="flex justify-center mb-4">
+                            <svg class="w-16 h-16 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-yellow-800 mb-2">Pendaftaran Tidak Tersedia</h3>
+                        <p class="text-yellow-700">{{ $pesanPendaftaran }}</p>
+                        @if($jadwalAktif && $jadwalAktif->tanggal_pengumuman)
+                            <p class="text-sm text-yellow-600 mt-2">
+                                Pengumuman: {{ $jadwalAktif->tanggal_pengumuman->format('d M Y') }}
+                            </p>
+                        @endif
+                        <div class="mt-6">
+                            <a href="{{ route('index') }}" 
+                               class="inline-block px-6 py-3 bg-[#3C5148] text-white rounded-lg hover:bg-[#2E3C35] transition">
+                                Kembali ke Beranda
+                            </a>
+                        </div>
+                    </div>
+                @else
+                    <!-- Form Pendaftaran -->
+                    <form action="{{ route('daftar-pkl.update-siswa') }}" method="POST" class="space-y-5">
+                        @csrf
 
                     <!-- Nama Lengkap -->
                     <div>
@@ -243,6 +267,7 @@
                         </a>
                     </div>
                 </form>
+                @endif
             </div>
         </div>
     </div>

@@ -39,9 +39,10 @@ class MitraController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $mitra = Mitra::with('jurusan')->findOrFail($id); // ambil data mitra
+        return view('mitra.mitra', compact('mitra'));
     }
 
     /**

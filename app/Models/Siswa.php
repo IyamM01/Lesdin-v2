@@ -43,4 +43,44 @@ class Siswa extends Model
     {
         return $this->hasOne(Registration::class);
     }
+
+    /**
+     * Relationship dengan Registrations (bisa lebih dari 1)
+     */
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class);
+    }
+
+    /**
+     * Relationship dengan Dokumen Pendukung
+     */
+    public function dokumenPendukung(): HasOne
+    {
+        return $this->hasOne(DokumenPendukung::class);
+    }
+
+    /**
+     * Cek apakah siswa sudah mendaftar PKL
+     */
+    public function hasDaftar(): bool
+    {
+        return $this->registrations()->exists();
+    }
+
+    /**
+     * Get registration terbaru
+     */
+    public function getLatestRegistration()
+    {
+        return $this->registrations()->latest()->first();
+    }
+
+    /**
+     * Cek apakah siswa sudah diterima di mitra
+     */
+    public function isDiterima(): bool
+    {
+        return $this->registrations()->where('status', 'diterima')->exists();
+    }
 }

@@ -20,31 +20,33 @@ class RegistrationSeeder extends Seeder
         $siswas = Siswa::all();
         $gurus = GuruPendamping::all();
         $mitras = Mitra::all();
-        $jadwalPendaftarans = JadwalPendaftaran::all();
+        $jadwalAktif = JadwalPendaftaran::where('is_active', true)->first();
 
-        $statuses = ['proses', 'diterima', 'ditolak'];
+        $statuses = ['proses', 'diterima', 'ditolak', 'selesai'];
 
-        // Buat registrasi untuk setiap siswa
-        foreach ($siswas as $siswa) {
+        // Buat registrasi untuk beberapa siswa dengan berbagai status
+        foreach ($siswas->take(15) as $index => $siswa) {
+            // Pilih 2 mitra berbeda
+            $selectedMitras = $mitras->random(2);
+            
+            // Tentukan status dan mitra diterima
+            $status = $statuses[$index % 4]; // Distribusi merata
+            $mitraDiterima = in_array($status, ['diterima', 'selesai']) 
+                ? $selectedMitras->random()->id 
+                : null;
+            
+            // Buat tanggal daftar dalam 7 hari terakhir untuk grafik
+            $tanggalDaftar = now()->subDays(rand(0, 6))->setTime(rand(8, 16), rand(0, 59));
+
             Registration::create([
                 'siswa_id' => $siswa->id,
-                'guru_pendamping_id' => $gurus->random()->id,
-                'mitra_id' => $mitras->random()->id,
-                'jadwal_pendaftaran_id' => $jadwalPendaftarans->random()->id,
-                'status' => $statuses[array_rand($statuses)],
-                'tanggal_daftar' => now()->subDays(rand(1, 30)),
-            ]);
-        }
-
-        // Buat beberapa registrasi tambahan
-        for ($i = 0; $i < 10; $i++) {
-            Registration::create([
-                'siswa_id' => $siswas->random()->id,
-                'guru_pendamping_id' => $gurus->random()->id,
-                'mitra_id' => $mitras->random()->id,
-                'jadwal_pendaftaran_id' => $jadwalPendaftarans->random()->id,
-                'status' => $statuses[array_rand($statuses)],
-                'tanggal_daftar' => now()->subDays(rand(1, 60)),
+                'guru_pendamping_id' => $status !== 'proses' ? $gurus->random()->id : null,
+                'mitra_1_id' => $selectedMitras[0]->id,
+                'mitra_2_id' => $selectedMitras[1]->id,
+                'mitra_diterima_id' => $mitraDiterima,
+                'jadwal_pendaftaran_id' => $jadwalAktif->id,
+                'status' => $status,
+                'tanggal_daftar' => $tanggalDaftar,
             ]);
         }
     }

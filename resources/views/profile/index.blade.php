@@ -92,22 +92,83 @@
             {{-- Status Pendaftaran --}}
             <div>
                 <h3 class="font-bold text-lg mb-6 text-black">Status Pendaftaran</h3>
-                <div class="space-y-7">
-                    <div>
-                        <p class="text-sm font-medium text-black mb-2">Perusahaan 1</p>
-                        <div class="flex justify-between items-center bg-gray-100 px-4 py-3 rounded-md">
-                            <span class="font-medium text-black">PT Cargloss</span>
-                            <span class="px-3 py-1 text-xs md:text-sm bg-red-600 text-white rounded-md">Ditolak</span>
+                @if(Auth::user()->role === 'siswa' && Auth::user()->siswa)
+                    @php
+                        $registration = Auth::user()->siswa->registrations->first();
+                    @endphp
+                    
+                    @if(!$registration)
+                        <div class="bg-gray-100 rounded-md px-4 py-3 text-sm text-gray-500 text-center">
+                            Belum ada pendaftaran PKL
                         </div>
-                    </div>
-                    <div>
-                        <p class="text-sm font-medium text-black mb-2">Perusahaan 2</p>
-                        <div class="flex justify-between items-center bg-gray-100 px-4 py-3 rounded-md">
-                            <span class="font-medium text-black">PT Gamatechno</span>
-                            <span class="px-3 py-1 text-xs md:text-sm bg-green-600 text-white rounded-md">Diterima</span>
+                    @else
+                        <div class="space-y-6">
+                            {{-- Perusahaan 1 --}}
+                            <div>
+                                <p class="text-base font-semibold text-black mb-3">Perusahaan 1</p>
+                                <div class="bg-gray-200 rounded-2xl px-6 py-4 flex justify-between items-center">
+                                    <span class="font-semibold text-black text-base">
+                                        {{ $registration->mitra1->name ?? 'Tidak ada pilihan' }}
+                                    </span>
+                                    @php
+                                        // Status untuk mitra 1
+                                        $statusMitra1 = 'Proses';
+                                        $badgeClass1 = 'bg-yellow-500';
+                                        
+                                        if(($registration->status === 'diterima' || $registration->status === 'selesai') && $registration->mitra_diterima_id == $registration->mitra_1_id) {
+                                            $statusMitra1 = $registration->status === 'selesai' ? 'Selesai' : 'Diterima';
+                                            $badgeClass1 = $registration->status === 'selesai' ? 'bg-blue-600' : 'bg-green-600';
+                                        } elseif(($registration->status === 'diterima' || $registration->status === 'selesai') && $registration->mitra_diterima_id != $registration->mitra_1_id) {
+                                            $statusMitra1 = 'Ditolak';
+                                            $badgeClass1 = 'bg-red-600';
+                                        } elseif($registration->status === 'ditolak') {
+                                            $statusMitra1 = 'Ditolak';
+                                            $badgeClass1 = 'bg-red-600';
+                                        }
+                                    @endphp
+                                    <span class="px-8 py-2 {{ $badgeClass1 }} text-white rounded-full font-medium text-sm">
+                                        {{ $statusMitra1 }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            {{-- Perusahaan 2 --}}
+                            @if($registration->mitra_2_id)
+                                <div>
+                                    <p class="text-base font-semibold text-black mb-3">Perusahaan 2</p>
+                                    <div class="bg-gray-200 rounded-2xl px-6 py-4 flex justify-between items-center">
+                                        <span class="font-semibold text-black text-base">
+                                            {{ $registration->mitra2->name ?? 'Tidak ada pilihan' }}
+                                        </span>
+                                        @php
+                                            // Status untuk mitra 2
+                                            $statusMitra2 = 'Proses';
+                                            $badgeClass2 = 'bg-yellow-500';
+                                            
+                                            if(($registration->status === 'diterima' || $registration->status === 'selesai') && $registration->mitra_diterima_id == $registration->mitra_2_id) {
+                                                $statusMitra2 = $registration->status === 'selesai' ? 'Selesai' : 'Diterima';
+                                                $badgeClass2 = $registration->status === 'selesai' ? 'bg-blue-600' : 'bg-green-600';
+                                            } elseif(($registration->status === 'diterima' || $registration->status === 'selesai') && $registration->mitra_diterima_id != $registration->mitra_2_id) {
+                                                $statusMitra2 = 'Ditolak';
+                                                $badgeClass2 = 'bg-red-600';
+                                            } elseif($registration->status === 'ditolak') {
+                                                $statusMitra2 = 'Ditolak';
+                                                $badgeClass2 = 'bg-red-600';
+                                            }
+                                        @endphp
+                                        <span class="px-8 py-2 {{ $badgeClass2 }} text-white rounded-full font-medium text-sm">
+                                            {{ $statusMitra2 }}
+                                        </span>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
+                    @endif
+                @else
+                    <div class="bg-gray-100 rounded-md px-4 py-3 text-sm text-gray-500 text-center">
+                        Status pendaftaran hanya tersedia untuk siswa
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </main>
