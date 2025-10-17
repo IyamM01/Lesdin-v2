@@ -30,20 +30,43 @@
           <div class="font-medium text-sm mb-3">{{ $m->name }}</div>
 
           {{-- logo dari DB (kolom: image) --}}
-          <div class="bg-white rounded-xl border h-32 grid place-items-center overflow-hidden">
-            <img src="{{ $img }}" alt="{{ $m->name }}" class="object-contain max-h-28">
+          <a href="{{ route('admin.perusahaan.show', $m->id) }}" class="block">
+            <div class="bg-white rounded-xl border h-32 grid place-items-center overflow-hidden hover:border-[#3C5148] transition">
+              <img src="{{ $img }}" alt="{{ $m->name }}" class="object-contain max-h-28">
+            </div>
+          </a>
+
+          {{-- Info singkat --}}
+          <div class="mt-3 space-y-1">
+            @if($m->jurusan)
+              <div class="text-xs text-gray-600 flex items-center gap-1">
+                <i data-lucide="graduation-cap" class="w-3 h-3"></i>
+                <span>{{ $m->jurusan->nama_jurusan }}</span>
+              </div>
+            @endif
+            @if($m->alamat)
+              <div class="text-xs text-gray-600 flex items-center gap-1">
+                <i data-lucide="map-pin" class="w-3 h-3"></i>
+                <span class="line-clamp-1">{{ $m->alamat }}</span>
+              </div>
+            @endif
           </div>
 
-          {{-- hapus --}}
-          <form action="{{ route('admin.perusahaan.destroy', $m->id) }}" method="POST"
-                onsubmit="return confirm('Hapus perusahaan ini?')"
-                class="absolute top-3 right-3">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="p-2 bg-white/90 rounded-full shadow hover:bg-white">
-              <i data-lucide="trash-2" class="w-4 h-4 text-red-600"></i>
-            </button>
-          </form>
+          {{-- Tombol Aksi --}}
+          <div class="absolute top-3 right-3 flex gap-1">
+            <a href="{{ route('admin.perusahaan.show', $m->id) }}" 
+               class="p-2 bg-white/90 rounded-full shadow hover:bg-white">
+              <i data-lucide="eye" class="w-4 h-4 text-blue-600"></i>
+            </a>
+            <form action="{{ route('admin.perusahaan.destroy', $m->id) }}" method="POST"
+                  onsubmit="return confirm('Hapus perusahaan ini?')">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="p-2 bg-white/90 rounded-full shadow hover:bg-white">
+                <i data-lucide="trash-2" class="w-4 h-4 text-red-600"></i>
+              </button>
+            </form>
+          </div>
         </div>
       @endforeach
 

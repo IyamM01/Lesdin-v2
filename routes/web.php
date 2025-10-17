@@ -84,6 +84,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get   ('/admin/perusahaan',         [MitraAdminController::class, 'index'])->name('admin.perusahaan');
     Route::get   ('/admin/perusahaan/create',  [MitraAdminController::class, 'create'])->name('admin.perusahaan.create');
     Route::post  ('/admin/perusahaan',         [MitraAdminController::class, 'store'])->name('admin.perusahaan.store');
+    Route::get   ('/admin/perusahaan/{mitra}', [MitraAdminController::class, 'show'])->name('admin.perusahaan.show');
     Route::delete('/admin/perusahaan/{mitra}', [MitraAdminController::class, 'destroy'])->name('admin.perusahaan.destroy');
 });
 

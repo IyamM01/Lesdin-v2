@@ -41,7 +41,17 @@ class MitraController extends Controller
      */
     public function show($id)
     {
-        $mitra = Mitra::findOrFail($id);
+        $mitra = Mitra::with([
+            'jurusan',
+            'registrationsDiterima' => function($query) {
+                $query->where('status', 'diterima');
+            }
+        ])
+        ->withCount(['registrationsDiterima' => function($query) {
+            $query->where('status', 'diterima');
+        }])
+        ->findOrFail($id);
+        
         return view('mitra.show', compact('mitra'));
     }
 

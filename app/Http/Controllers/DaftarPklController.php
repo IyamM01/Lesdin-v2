@@ -56,8 +56,12 @@ class DaftarPklController extends Controller
      */
     public function index2()
     {
-        // Ambil semua mitra yang aktif
-        $mitras = Mitra::orderBy('name')->get();
+        // Ambil semua mitra yang aktif dengan hitungan siswa yang sedang PKL
+        $mitras = Mitra::withCount(['registrationsDiterima' => function($query) {
+            $query->where('status', 'diterima'); // Hanya hitung yang sedang PKL
+        }])
+        ->orderBy('name')
+        ->get();
         
         // Ambil data siswa
         $siswa = Siswa::where('user_id', Auth::id())->first();
@@ -98,6 +102,28 @@ class DaftarPklController extends Controller
         if (!$jadwalAktif) {
             return redirect()->back()
                 ->with('error', 'Belum ada jadwal pendaftaran yang aktif saat ini.');
+        }
+
+        // Validasi kuota mitra pilihan 1
+        $mitra1 = Mitra::withCount(['registrationsDiterima' => function($query) {
+            $query->where('status', 'diterima');
+        }])->findOrFail($validated['pilihan1']);
+        
+        if ($mitra1->kuota > 0 && $mitra1->registrations_diterima_count >= $mitra1->kuota) {
+            return redirect()->back()
+                ->with('error', 'Kuota perusahaan pilihan 1 (' . $mitra1->name . ') sudah penuh. Silakan pilih perusahaan lain.');
+        }
+
+        // Validasi kuota mitra pilihan 2 jika ada
+        if (!empty($validated['pilihan2'])) {
+            $mitra2 = Mitra::withCount(['registrationsDiterima' => function($query) {
+                $query->where('status', 'diterima');
+            }])->findOrFail($validated['pilihan2']);
+            
+            if ($mitra2->kuota > 0 && $mitra2->registrations_diterima_count >= $mitra2->kuota) {
+                return redirect()->back()
+                    ->with('error', 'Kuota perusahaan pilihan 2 (' . $mitra2->name . ') sudah penuh. Silakan pilih perusahaan lain.');
+            }
         }
 
         // Update atau create registration

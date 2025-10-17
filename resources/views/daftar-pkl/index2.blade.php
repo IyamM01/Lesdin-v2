@@ -97,14 +97,28 @@
                         >
                             <option value="" disabled {{ old('pilihan1', $pilihan1 ?? '') ? '' : 'selected' }}>Pilih Perusahaan</option>
                             @foreach($mitras as $mitra)
-                                <option value="{{ $mitra->id }}" {{ old('pilihan1', $pilihan1 ?? '') == $mitra->id ? 'selected' : '' }}>
+                                @php
+                                    $terisi = $mitra->registrations_diterima_count ?? 0;
+                                    $kuota = $mitra->kuota ?? 0;
+                                    $penuh = $kuota > 0 && $terisi >= $kuota;
+                                @endphp
+                                <option value="{{ $mitra->id }}" 
+                                    {{ old('pilihan1', $pilihan1 ?? '') == $mitra->id ? 'selected' : '' }}
+                                    {{ $penuh ? 'disabled' : '' }}>
                                     {{ $mitra->name }}
+                                    @if($kuota > 0)
+                                        ({{ $terisi }}/{{ $kuota }})
+                                        @if($penuh)
+                                            - PENUH
+                                        @endif
+                                    @endif
                                 </option>
                             @endforeach
                         </select>
                         @error('pilihan1')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
+                        <p class="text-xs text-gray-500 mt-1">Perusahaan yang kuotanya penuh tidak dapat dipilih</p>
                     </div>
 
                     <!-- Pilihan 2 -->
@@ -120,14 +134,28 @@
                         >
                             <option value="" {{ old('pilihan2', $pilihan2 ?? '') ? '' : 'selected' }}>Pilih Perusahaan</option>
                             @foreach($mitras as $mitra)
-                                <option value="{{ $mitra->id }}" {{ old('pilihan2', $pilihan2 ?? '') == $mitra->id ? 'selected' : '' }}>
+                                @php
+                                    $terisi = $mitra->registrations_diterima_count ?? 0;
+                                    $kuota = $mitra->kuota ?? 0;
+                                    $penuh = $kuota > 0 && $terisi >= $kuota;
+                                @endphp
+                                <option value="{{ $mitra->id }}" 
+                                    {{ old('pilihan2', $pilihan2 ?? '') == $mitra->id ? 'selected' : '' }}
+                                    {{ $penuh ? 'disabled' : '' }}>
                                     {{ $mitra->name }}
+                                    @if($kuota > 0)
+                                        ({{ $terisi }}/{{ $kuota }})
+                                        @if($penuh)
+                                            - PENUH
+                                        @endif
+                                    @endif
                                 </option>
                             @endforeach
                         </select>
                         @error('pilihan2')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
+                        <p class="text-xs text-gray-500 mt-1">Perusahaan yang kuotanya penuh tidak dapat dipilih</p>
                     </div>
 
                     <!-- Submit Buttons -->

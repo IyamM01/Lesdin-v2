@@ -63,6 +63,18 @@ class MitraAdminController extends Controller
         return redirect()->route('admin.perusahaan')->with('success','Perusahaan berhasil ditambahkan.');
     }
 
+    public function show(Mitra $mitra)
+    {
+        // Load relasi yang dibutuhkan
+        $mitra->load([
+            'jurusan',
+            'registrationsDiterima.siswa.user',
+            'registrationsDiterima.siswa.jurusan'
+        ]);
+        
+        return view('admin.perusahaan-show', compact('mitra'));
+    }
+
     public function destroy(Mitra $mitra)
     {
         // hapus file di public/images bila ada
