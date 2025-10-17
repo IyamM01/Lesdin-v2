@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Siswa;
 use App\Models\Mitra;
 use App\Models\Registration;
 use App\Models\JadwalPendaftaran;
 use App\Models\DokumenPendukung;
+use App\Mail\RegistrationNotification;
 
 class DaftarPklController extends Controller
 {
@@ -186,7 +188,7 @@ class DaftarPklController extends Controller
             ]
         );
 
-        return redirect()->route('daftar-pkl.index4')->with('success', 'Dokumen berhasil diupload!');
+        return redirect()->route('daftar-pkl.index4')->with('dokumen_uploaded', 'Dokumen berhasil diupload! Silakan lanjutkan ke tahap persetujuan.');
     }
 
     /**
@@ -247,6 +249,51 @@ class DaftarPklController extends Controller
             'tanggal_daftar' => now(),
         ]);
 
+        // Load relationships untuk email
+        $registration->load(['siswa.jurusan', 'mitra1', 'mitra2']);
+
+        // Kirim email ke perusahaan pilihan 1
+        if ($registration->mitra1 && $registration->mitra1->email) {
+            try {
+                Mail::to($registration->mitra1->email)->queue(new RegistrationNotification($registration));
+                Log::info('Email masuk ke queue untuk mitra 1', [
+                    'mitra' => $registration->mitra1->name,
+                    'email' => $registration->mitra1->email
+                ]);
+            } catch (\Exception $e) {
+                Log::error('Gagal memasukkan email ke queue untuk mitra 1', [
+                    'error' => $e->getMessage(),
+                    'mitra' => $registration->mitra1->name
+                ]);
+            }
+        } else {
+            Log::warning('Mitra 1 tidak punya email, email tidak dikirim', [
+                'mitra' => $registration->mitra1->name ?? 'N/A'
+            ]);
+        }
+
+        // Kirim email ke perusahaan pilihan 2 (jika ada)
+        if ($registration->mitra2 && $registration->mitra2->email) {
+            try {
+                Mail::to($registration->mitra2->email)->queue(new RegistrationNotification($registration));
+                Log::info('Email masuk ke queue untuk mitra 2', [
+                    'mitra' => $registration->mitra2->name,
+                    'email' => $registration->mitra2->email
+                ]);
+            } catch (\Exception $e) {
+                Log::error('Gagal memasukkan email ke queue untuk mitra 2', [
+                    'error' => $e->getMessage(),
+                    'mitra' => $registration->mitra2->name
+                ]);
+            }
+        } else {
+            if ($registration->mitra2) {
+                Log::warning('Mitra 2 tidak punya email, email tidak dikirim', [
+                    'mitra' => $registration->mitra2->name ?? 'N/A'
+                ]);
+            }
+        }
+
         // Log untuk debugging (optional, bisa dihapus di production)
         Log::info('Pendaftaran PKL berhasil disubmit', [
             'siswa_id' => $siswa->id,
@@ -258,8 +305,8 @@ class DaftarPklController extends Controller
             'tanggal_daftar' => $registration->tanggal_daftar,
         ]);
 
-        return redirect()->route('profile.index')
-            ->with('success', 'Pendaftaran PKL berhasil dikirim! Silakan cek secara berkala untuk informasi tahap berikutnya.');
+        return redirect()->route('daftar-pkl.index4')
+            ->with('pendaftaran_berhasil', 'Pendaftaran PKL berhasil dikirim! Silakan cek secara berkala untuk informasi tahap berikutnya.');
     }
 
     /**

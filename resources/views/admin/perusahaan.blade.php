@@ -5,9 +5,16 @@
 @section('content')
 <div class="max-w-6xl mx-auto">
   <!-- Header -->
-  <div class="flex items-center gap-3 mb-6">
-    <i data-lucide="building-2" class="w-7 h-7 text-[#3C5148]"></i>
-    <h2 class="text-3xl font-extrabold tracking-wide text-[#3C5148]">Daftar Perusahaan</h2>
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center gap-3">
+      <i data-lucide="building-2" class="w-7 h-7 text-[#3C5148]"></i>
+      <h2 class="text-3xl font-extrabold tracking-wide text-[#3C5148]">Daftar Perusahaan</h2>
+    </div>
+    <a href="{{ route('admin.perusahaan.create') }}" 
+       class="inline-flex items-center gap-2 px-4 py-2 bg-[#3C5148] text-white rounded-lg hover:bg-[#2F463F] transition duration-200">
+      <i data-lucide="plus" class="w-5 h-5"></i>
+      <span>Tambah Perusahaan</span>
+    </a>
   </div>
 
   <!-- Flash Success -->
@@ -63,15 +70,13 @@
 
           {{-- Tombol Aksi --}}
           <div class="absolute top-3 right-3 flex gap-1">
-            <a href="{{ route('admin.perusahaan.show', $m->id) }}" 
-               class="p-2 bg-white/90 rounded-full shadow hover:bg-white">
-              <i data-lucide="eye" class="w-4 h-4 text-blue-600"></i>
-            </a>
             <form action="{{ route('admin.perusahaan.destroy', $m->id) }}" method="POST"
-                  onsubmit="return confirm('Hapus perusahaan ini?')">
+                  onsubmit="return confirm('Hapus perusahaan ini?')"
+                  class="inline">
               @csrf
               @method('DELETE')
-              <button type="submit" class="p-2 bg-white/90 rounded-full shadow hover:bg-white">
+              <button type="submit" class="p-2 bg-white/90 rounded-full shadow hover:bg-white transition"
+                      title="Hapus Perusahaan">
                 <i data-lucide="trash-2" class="w-4 h-4 text-red-600"></i>
               </button>
             </form>

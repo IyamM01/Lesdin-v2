@@ -139,7 +139,7 @@
                 @endif
 
                 <!-- Telepon -->
-                @if($mitra->telepon)
+                @if($mitra->kontak)
                 <div class="bg-white rounded-xl p-4 flex items-center gap-3 border border-[#4A5A55]">
                     <div class="w-10 h-10 bg-[#3C5148] rounded-full flex items-center justify-center flex-shrink-0">
                         <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -148,12 +148,12 @@
                     </div>
                     <div>
                         <div class="text-xs text-[#2E3C35] font-medium mb-1">Telepon</div>
-                        <a href="tel:{{ $mitra->telepon }}" class="text-xs text-gray-600 hover:text-[#3C5148]">{{ $mitra->telepon }}</a>
+                        <a href="tel:{{ $mitra->kontak }}" class="text-xs text-gray-600 hover:text-[#3C5148]">{{ $mitra->kontak }}</a>
                     </div>
                 </div>
                 @endif
 
-                @if(!$mitra->instagram && !$mitra->email && !$mitra->telepon)
+                @if(!$mitra->instagram && !$mitra->email && !$mitra->kontak)
                 <div class="col-span-full text-center py-4">
                     <p class="text-gray-500 text-sm italic">Informasi kontak belum tersedia.</p>
                 </div>

@@ -34,9 +34,9 @@
             <div class="w-full max-w-3xl bg-gray-100 rounded-r-2xl shadow-lg p-8">
                 <h2 class="text-xl font-semibold text-[#2E3C35] mb-6">Persetujuan</h2>
 
-                @if(session('success'))
+                @if(session('dokumen_uploaded'))
                     <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-                        {{ session('success') }}
+                        {{ session('dokumen_uploaded') }}
                     </div>
                 @endif
 
@@ -160,9 +160,9 @@
     </div>
 </div>
 
-@if(session('success'))
+@if(session('pendaftaran_berhasil'))
 <script>
-    // Auto show modal if success message exists
+    // Auto show modal ONLY when pendaftaran final berhasil
     document.addEventListener('DOMContentLoaded', function() {
         const modal = document.getElementById('successModal');
         modal.classList.remove('hidden');

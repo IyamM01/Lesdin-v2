@@ -75,6 +75,61 @@ class MitraAdminController extends Controller
         return view('admin.perusahaan-show', compact('mitra'));
     }
 
+    public function edit(Mitra $mitra)
+    {
+        $jurusans = Jurusan::orderBy('nama_jurusan')->get();
+        return view('admin.perusahaan-edit', compact('mitra', 'jurusans'));
+    }
+
+    public function update(Request $request, Mitra $mitra)
+    {
+        $data = $request->validate([
+            'image'       => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
+            'name'        => ['required','string','max:200'],
+            'alamat'      => ['nullable','string','max:255'],
+            'deskripsi'   => ['nullable','string'],
+            'kuota'       => ['nullable','integer','min:0'],
+            'jurusan_id'  => ['nullable','exists:jurusans,id'],
+            'posisi'      => ['nullable','string','max:200'],
+            'instagram'   => ['nullable','string','max:200'],
+            'email'       => ['nullable','email','max:200'],
+            'telepon'     => ['nullable','string','max:50'],
+        ]);
+
+        // Upload gambar baru jika ada
+        $filename = $mitra->image; // gunakan gambar lama sebagai default
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama
+            if (!empty($mitra->image)) {
+                $oldPath = public_path('images/'.$mitra->image);
+                if (is_file($oldPath)) @unlink($oldPath);
+            }
+            
+            // Upload gambar baru
+            $file = $request->file('image');
+            @mkdir(public_path('images'), 0775, true);
+            $filename = uniqid('mitra_').'.'.$file->getClientOriginalExtension();
+            $file->move(public_path('images'), $filename);
+        }
+
+        // Update data mitra
+        $mitra->update([
+            'name'        => $data['name'],
+            'alamat'      => $data['alamat'] ?? null,
+            'deskripsi'   => $data['deskripsi'] ?? null,
+            'kuota'       => $data['kuota'] ?? 0,
+            'jurusan_id'  => $data['jurusan_id'] ?? null,
+            'posisi'      => $data['posisi'] ?? null,
+            'instagram'   => $data['instagram'] ?? null,
+            'email'       => $data['email'] ?? null,
+            'telepon'     => $data['telepon'] ?? null,
+            'image'       => $filename,
+        ]);
+
+        return redirect()->route('admin.perusahaan.show', $mitra->id)
+            ->with('success','Perusahaan berhasil diperbarui.');
+    }
+
     public function destroy(Mitra $mitra)
     {
         // hapus file di public/images bila ada

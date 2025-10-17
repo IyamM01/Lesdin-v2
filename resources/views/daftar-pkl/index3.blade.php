@@ -34,12 +34,6 @@
             <div class="w-full max-w-3xl bg-gray-100 rounded-r-2xl shadow-lg p-8">
                 <h2 class="text-xl font-semibold text-[#2E3C35] mb-6">Dokumen Pendukung</h2>
 
-                @if(session('success'))
-                    <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
                 @if($errors->any())
                     <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
                         <ul class="list-disc list-inside">

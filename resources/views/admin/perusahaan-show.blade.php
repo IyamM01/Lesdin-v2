@@ -18,6 +18,11 @@
         
         <!-- Action Buttons -->
         <div class="flex items-center gap-3">
+            <a href="{{ route('admin.perusahaan.edit', $mitra->id) }}" 
+               class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition inline-flex items-center gap-2">
+                <i data-lucide="pencil" class="w-4 h-4"></i>
+                Edit Perusahaan
+            </a>
             <a href="{{ route('admin.perusahaan') }}" 
                class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition inline-flex items-center gap-2">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i>

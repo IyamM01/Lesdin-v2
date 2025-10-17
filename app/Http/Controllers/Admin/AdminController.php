@@ -14,7 +14,11 @@ class AdminController extends Controller
     public function index()
     {
         // Total siswa berdasarkan status PKL
-        $belumPkl = Siswa::whereDoesntHave('registration')->count();
+        // Belum PKL: siswa tanpa registration + status proses + status ditolak
+        $siswaWithoutRegistration = Siswa::whereDoesntHave('registration')->count();
+        $siswaProsesDitolak = Registration::whereIn('status', ['proses', 'ditolak'])->count();
+        $belumPkl = $siswaWithoutRegistration + $siswaProsesDitolak;
+        
         $sedangPkl = Registration::where('status', 'diterima')->count();
         $selesaiPkl = Registration::where('status', 'selesai')->count();
         

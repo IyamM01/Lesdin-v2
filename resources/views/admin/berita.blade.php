@@ -4,9 +4,16 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto">
-    <div class="flex items-center gap-3 mb-6">
-        <i data-lucide="newspaper" class="w-7 h-7 text-[#2F463F]"></i>
-        <h2 class="text-3xl font-extrabold tracking-wide text-[#2F463F]">Daftar Berita</h2>
+    <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+            <i data-lucide="newspaper" class="w-7 h-7 text-[#2F463F]"></i>
+            <h2 class="text-3xl font-extrabold tracking-wide text-[#2F463F]">Daftar Berita</h2>
+        </div>
+        <a href="{{ route('admin.berita.create') }}" 
+           class="inline-flex items-center gap-2 px-4 py-2 bg-[#3C5148] text-white rounded-lg hover:bg-[#2F463F] transition duration-200">
+            <i data-lucide="plus" class="w-5 h-5"></i>
+            <span>Tambah Berita</span>
+        </a>
     </div>
 
     @if (session('success'))
