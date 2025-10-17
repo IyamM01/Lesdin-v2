@@ -4,67 +4,54 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        // Ambil user dengan relasi siswa dan jurusan
         $user = User::with(['siswa.jurusan', 'guruPendamping'])
-                    ->find(Auth::id());
-        
-        return view('profile.index', compact('user'));
+                    ->findOrFail(Auth::id());
+
+        // Coba view 'profile.index' dulu, kalau tidak ada jatuh ke 'profile'
+        $viewName = view()->exists('profile.index') ? 'profile.index'
+                  : (view()->exists('profile') ? 'profile' : null);
+
+        if (!$viewName) {
+            // Biar error-nya jelas kalau file memang tidak ada dua-duanya
+            abort(500, "View 'profile' atau 'profile/index' tidak ditemukan. Pastikan file berada di resources/views/profile.blade.php atau resources/views/profile/index.blade.php");
+        }
+
+        return view($viewName, compact('user'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    // Edit terpisah tidak dipakai
+    public function edit() { abort(404); }
+
+    // Penting: TANPA parameter $id, karena route PATCH /profile tidak mengirim id
+    public function update(Request $request)
     {
-        //
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['nullable', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
+            'password' => ['nullable', 'confirmed', 'min:8'],
+        ]);
+
+        $user->name = $validated['name'];
+        if (!empty($validated['email'])) {
+            $user->email = $validated['email'];
+        }
+        if (!empty($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
+        }
+        $user->save();
+
+        return back()->with('status', 'Profil berhasil diperbarui.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    public function destroy() { abort(404); }
 }
