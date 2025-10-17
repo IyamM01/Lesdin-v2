@@ -102,6 +102,15 @@
     <div class="flex-1 bg-gray-50 flex items-center justify-center p-4 lg:p-8">
         <div class="w-full max-w-md">
 
+            {{-- Back Button --}}
+            <a href="{{ route('index') }}" 
+               class="inline-flex items-center gap-2 text-[#3C5148] hover:text-[#678E4D] font-medium mb-6 transition group">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                <span class="text-sm lg:text-base">Kembali ke Beranda</span>
+            </a>
+
             {{-- Welcome --}}
             <div class="text-start mb-6 lg:mb-8">
                 <h2 class="text-2xl lg:text-3xl font-bold text-[#3C5148] mb-2">

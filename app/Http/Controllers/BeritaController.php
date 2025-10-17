@@ -64,6 +64,43 @@ class BeritaController extends Controller
     }
 
     /**
+     * Form edit berita.
+     */
+    public function edit(Berita $berita)
+    {
+        return view('admin.berita-edit', compact('berita'));
+    }
+
+    /**
+     * Update berita.
+     */
+    public function update(Request $request, Berita $berita)
+    {
+        $data = $request->validate([
+            'judul' => ['required', 'string', 'max:200'],
+            'isi'   => ['required', 'string'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+        ]);
+
+        // Update gambar jika ada file baru
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($berita->gambar) {
+                Storage::disk('public')->delete($berita->gambar);
+            }
+            $data['gambar'] = $request->file('image')->store('berita', 'public');
+        }
+
+        $berita->update([
+            'judul' => $data['judul'],
+            'isi'   => $data['isi'],
+            'gambar' => $data['gambar'] ?? $berita->gambar,
+        ]);
+
+        return redirect()->route('admin.berita')->with('success', 'Berita berhasil diperbarui.');
+    }
+
+    /**
      * Hapus berita.
      */
     public function destroy(Berita $berita)

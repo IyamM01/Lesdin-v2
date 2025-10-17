@@ -102,8 +102,9 @@
       <p class="text-[#B2C583] font-medium mb-2 flex items-center justify-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path d="M12 14l9-5-9-5-9 5 9 5z"/>
-          <path d="M12 14l6.16-3.422A12.083 12.083 0 016 8.36"/>
+          <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/>
+          <path d="M22 10v6"/>
+          <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>
         </svg>
         Visi dan Misi
       </p>
@@ -137,7 +138,9 @@
                 <p class="text-[#678E4D] text-sm font-medium flex items-center gap-2 mb-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+                        <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/>
+                        <path d="M22 10v6"/>
+                        <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>
                     </svg>
                     Info Praktik Kerja Lapangan
                 </p>

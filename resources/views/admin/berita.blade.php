@@ -35,16 +35,24 @@
                 @endphp
 
                 <article class="relative rounded-xl shadow-sm ring-1 ring-gray-100 overflow-hidden bg-white">
-                    {{-- Tombol Hapus (ikon) --}}
-                    <form action="{{ route('admin.berita.destroy', $b->id) }}" method="POST"
-                          onsubmit="return confirm('Hapus berita ini?');"
-                          class="absolute right-3 top-3 z-10">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="p-2 rounded-full bg-white/90 hover:bg-white shadow">
-                            <i data-lucide="trash-2" class="w-4 h-4 text-red-600"></i>
-                        </button>
-                    </form>
+                    {{-- Tombol Edit & Hapus --}}
+                    <div class="absolute right-3 top-3 z-10 flex gap-2">
+                        {{-- Tombol Edit --}}
+                        <a href="{{ route('admin.berita.edit', $b->id) }}" 
+                           class="p-2 rounded-full bg-white/90 hover:bg-white shadow">
+                            <i data-lucide="edit" class="w-4 h-4 text-blue-600"></i>
+                        </a>
+                        
+                        {{-- Tombol Hapus --}}
+                        <form action="{{ route('admin.berita.destroy', $b->id) }}" method="POST"
+                              onsubmit="return confirm('Hapus berita ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="p-2 rounded-full bg-white/90 hover:bg-white shadow">
+                                <i data-lucide="trash-2" class="w-4 h-4 text-red-600"></i>
+                            </button>
+                        </form>
+                    </div>
 
                     {{-- Gambar --}}
                     <img src="{{ $img }}" alt="{{ $b->judul }}" class="w-full h-40 object-cover">
