@@ -6,7 +6,7 @@
         <div class="absolute inset-0 bg-black/50"></div>
 
         <div data-aos="fade-up" data-aos-duration="1000"
-             class="relative z-10 flex flex-col items-start justify-center h-full text-white max-w-6xl px-18">
+             class="relative z-10 flex flex-col items-start justify-center h-full text-white max-w-full px-18">
             <a href="{{ url('/mitra') }}"
                class="bg-[#3C5148] hover:bg-[#678E4D] text-sm font-semibold px-6 py-2 rounded-full shadow-md transition mb-6 inline-flex items-center">
                 Info PKL Baca Selengkapnya
@@ -129,7 +129,7 @@
         <div class="flex flex-col md:flex-row items-center max-w-5xl mx-auto gap-8 md:gap-12 relative z-10">
             <div data-aos="fade-right" class="relative md:w-1/2 w-full flex-shrink-0 flex justify-start">
                 <div class="absolute right-32 bottom-0 w-[90%] h-[100%] bg-[#B7CDB0] rounded-lg z-0"></div>
-                <img src="{{ asset('images/bg-sekolah-3.png') }}" alt="Foto Sekolah 3"
+                <img src="{{ asset('images/PakKepsek.jpg') }}" alt="Foto Sekolah 3"
                     class="rounded-lg shadow-lg relative z-10 w-[370px] h-[300px] object-cover" />
             </div>
 

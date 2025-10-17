@@ -20,10 +20,15 @@
             </div>
         @endif
     </div>
+    
 
     <div class="container mx-auto px-4 -mt-20 relative z-10">
         <!-- Company Info Card -->
         <div class="bg-gray-100 rounded-2xl shadow-lg p-6 md:p-8 mb-8">
+            <a href="{{ route('mitra.index') }}"
+            class="inline-flex items-center gap-2 px-3 py-2 mb-4 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+            </a>
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
                 <h1 class="text-2xl md:text-3xl font-bold text-[#2E3C35] mb-2 md:mb-0">{{ $mitra->name }}</h1>
                 @if($mitra->alamat)
@@ -172,20 +177,24 @@
 function toggleAccordion(id) {
     const content = document.getElementById(id);
     const icon = document.getElementById('icon' + id.replace('accordion', ''));
-    
-    // Close all other accordions
+
+    // Tutup semua accordion lain
     document.querySelectorAll('[id^="accordion"]').forEach(el => {
-        if (el.id !== id && !el.classList.contains('hidden')) {
-            el.classList.add('hidden');
+        if (el.id !== id && el.style.maxHeight) {
+            el.style.maxHeight = null; 
             const otherIcon = document.getElementById('icon' + el.id.replace('accordion', ''));
-            if (otherIcon) {
-                otherIcon.classList.remove('rotate-180');
-            }
+            if (otherIcon) otherIcon.classList.remove('rotate-180');
         }
     });
-    
-    // Toggle current accordion
-    content.classList.toggle('hidden');
+
+    // Toggle accordion yang diklik
+    if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+    } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+    }
+
+    // Animasi icon
     icon.classList.toggle('rotate-180');
 }
 </script>

@@ -117,7 +117,7 @@
                                         
                                         if(($registration->status === 'diterima' || $registration->status === 'selesai') && $registration->mitra_diterima_id == $registration->mitra_1_id) {
                                             $statusMitra1 = $registration->status === 'selesai' ? 'Selesai' : 'Diterima';
-                                            $badgeClass1 = $registration->status === 'selesai' ? 'bg-blue-600' : 'bg-green-600';
+                                            $badgeClass1 = $registration->status === 'selesai' ? 'bg-[#3C5148]' : 'bg-green-600';
                                         } elseif(($registration->status === 'diterima' || $registration->status === 'selesai') && $registration->mitra_diterima_id != $registration->mitra_1_id) {
                                             $statusMitra1 = 'Ditolak';
                                             $badgeClass1 = 'bg-red-600';
@@ -147,7 +147,7 @@
                                             
                                             if(($registration->status === 'diterima' || $registration->status === 'selesai') && $registration->mitra_diterima_id == $registration->mitra_2_id) {
                                                 $statusMitra2 = $registration->status === 'selesai' ? 'Selesai' : 'Diterima';
-                                                $badgeClass2 = $registration->status === 'selesai' ? 'bg-blue-600' : 'bg-green-600';
+                                                $badgeClass2 = $registration->status === 'selesai' ? 'bg-[#3C5148]' : 'bg-green-600';
                                             } elseif(($registration->status === 'diterima' || $registration->status === 'selesai') && $registration->mitra_diterima_id != $registration->mitra_2_id) {
                                                 $statusMitra2 = 'Ditolak';
                                                 $badgeClass2 = 'bg-red-600';

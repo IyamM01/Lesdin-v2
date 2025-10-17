@@ -34,7 +34,7 @@
 
             {{-- Profile --}}
             <div class="text-center mt-6">
-                <img src="{{ asset('images/gama.png') }}" alt="Profile" class="w-20 h-20 mx-auto rounded-full">
+                <img src="{{ asset('images/gama.png') }}" alt="Profile" class="bg-gray-100 w-20 h-20 mx-auto rounded-full">
                 <p class="mt-3 font-semibold text-sm">Admin</p>
                 <p class="text-xs text-gray-300">Dashboard Admin</p>
             </div>

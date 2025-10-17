@@ -4,30 +4,39 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto">
+  <!-- Header -->
   <div class="flex items-center gap-3 mb-6">
-    <i data-lucide="building-2" class="w-7 h-7 text-[#2F463F]"></i>
-    <h2 class="text-3xl font-extrabold tracking-wide text-[#2F463F]">Daftar Perusahaan</h2>
+    <i data-lucide="building-2" class="w-7 h-7 text-[#3C5148]"></i>
+    <h2 class="text-3xl font-extrabold tracking-wide text-[#3C5148]">Daftar Perusahaan</h2>
   </div>
 
+  <!-- Flash Success -->
   @if(session('success'))
-    <div class="mb-4 rounded-lg bg-green-50 text-green-700 px-4 py-3 ring-1 ring-green-200">{{ session('success') }}</div>
+    <div class="mb-4 rounded-lg bg-green-50 text-green-700 px-4 py-3 ring-1 ring-green-200">
+      {{ session('success') }}
+    </div>
   @endif
 
-  <div class="bg-white rounded-2xl shadow p-6">
+  <!-- Main Card -->
+  <div class="bg-white rounded-2xl shadow p-6 border border-[#F3F4F6]">
+    
+    <!-- Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       @foreach($mitras as $i => $m)
         @php
-          // Samakan dengan index.blade.php → pakai kolom 'image' dari tabel mitra
-          // File disimpan di public/images/, contoh: public/images/{nama_file}
+          // Ambil gambar dari DB, fallback ke gama.png
           $img = $m->image ? asset('images/'.$m->image) : asset('images/gama.png');
         @endphp
 
-        <div class="relative rounded-2xl ring-1 ring-gray-100 bg-white p-4 shadow-sm hover:shadow-md transition-all duration-300">
-          {{-- nomor + nama --}}
+        <div class="relative rounded-2xl border border-[#F3F4F6] bg-white p-4 shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
+          
+          <!-- Nomor urut -->
           <div class="text-xs text-gray-500 mb-1">
             {{ method_exists($mitras,'firstItem') ? $mitras->firstItem() + $i : $i+1 }}
           </div>
-          <div class="font-medium text-sm mb-3">{{ $m->name }}</div>
+          
+          <!-- Nama perusahaan -->
+          <div class="font-medium text-sm mb-3 text-[#2F463F]">{{ $m->name }}</div>
 
           {{-- logo dari DB (kolom: image) --}}
           <a href="{{ route('admin.perusahaan.show', $m->id) }}" class="block">
@@ -70,21 +79,24 @@
         </div>
       @endforeach
 
-      {{-- kartu plus --}}
+      <!-- Kartu Tambah -->
       <a href="{{ route('admin.perusahaan.create') }}"
-         class="rounded-2xl ring-1 ring-gray-100 bg-white grid place-items-center min-h-[160px] hover:bg-gray-50">
-        <div class="flex flex-col items-center text-[#2F463F]">
-          <i data-lucide="plus" class="w-12 h-12"></i>
+         class="rounded-2xl border border-[#F3F4F6] bg-white flex flex-col items-center justify-center min-h-[160px] shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300 group">
+        <div class="flex flex-col items-center text-[#3C5148]">
+          <i data-lucide="plus" class="w-12 h-12 group-hover:text-[#FEBC2F] transition"></i>
           <span class="mt-1 text-sm font-medium">Tambah</span>
         </div>
       </a>
     </div>
 
+    <!-- Pagination -->
     <div class="mt-6">
       {{ $mitras->links() }}
     </div>
   </div>
 </div>
 
-<script>lucide.createIcons();</script>
+<script>
+  lucide.createIcons();
+</script>
 @endsection
