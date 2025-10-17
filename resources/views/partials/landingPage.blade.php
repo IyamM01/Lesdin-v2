@@ -84,43 +84,43 @@
     </style>
 
     {{-- Tentang Sekolah + Visi Misi --}}
-    <section class="w-full relative">
-        <div class="relative w-full h-[300px] md:h-[400px] overflow-hidden">
-            <img src="{{ asset('images/bg-sekolah-2.png') }}" alt="Foto Sekolah"
-                 class="absolute inset-0 w-full h-full object-cover object-center" />
+<section class="w-full relative pb-24 md:pb-0"> {{-- ✅ tambahkan pb-24 untuk spasi di mobile --}}
+  <div class="relative w-full h-[300px] md:h-[400px] overflow-hidden">
+    <img src="{{ asset('images/bg-sekolah-2.png') }}" alt="Foto Sekolah"
+         class="absolute inset-0 w-full h-full object-cover object-center" />
 
-            <div data-aos="fade-left" class="absolute top-8 right-8 md:right-24 bg-[#3C5148] bg-opacity-95 rounded-xl shadow-lg p-6 max-w-md text-white">
-                <h3 class="text-lg md:text-2xl font-bold mb-2">SMK Negeri 2 Depok Sleman</h3>
-                <p class="text-sm md:text-base leading-relaxed">
-                    SMK Negeri 2 Depok Sleman adalah sebuah sekolah menengah kejuruan yang berlokasi di Kabupaten Sleman, Daerah Istimewa Yogyakarta. Sekolah ini, dahulu bernama STM Pembangunan Yogyakarta, diresmikan pada tanggal 29 Juni 1972 oleh Presiden Soeharto. 
-                </p>
-            </div>
-        </div>
+    <div data-aos="fade-left" class="absolute top-8 right-8 md:right-24 bg-[#3C5148] bg-opacity-95 rounded-xl shadow-lg p-6 max-w-md text-white">
+      <h3 class="text-lg md:text-2xl font-bold mb-2">SMK Negeri 2 Depok Sleman</h3>
+      <p class="text-sm md:text-base leading-relaxed">
+        SMK Negeri 2 Depok Sleman adalah sebuah sekolah menengah kejuruan yang berlokasi di Kabupaten Sleman, Daerah Istimewa Yogyakarta. Sekolah ini, dahulu bernama STM Pembangunan Yogyakarta, diresmikan pada tanggal 29 Juni 1972 oleh Presiden Soeharto. 
+      </p>
+    </div>
+  </div>
 
-        <div class="container mx-auto px-4 md:px-0 -mt-16 relative z-10 flex justify-center">
-            <div data-aos="zoom-in" class="bg-white rounded-2xl shadow-xl p-4 md:p-6 text-center max-w-xl w-full">
-                <p class="text-[#B2C583] font-medium mb-2 flex items-center justify-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path d="M12 14l9-5-9-5-9 5 9 5z"/>
-                        <path d="M12 14l6.16-3.422A12.083 12.083 0 016 8.36"/>
-                    </svg>
-                    Visi dan Misi
-                </p>
-                <h3 class="text-2xl md:text-3xl font-bold text-[#678E4D] mb-6">Visi Membangun Masa Depan</h3>
-                <p class="text-[#3C5148] text-lg md:text-xl mb-8">
-                    Menghasilkan peserta didik yang unggul, berkarakter, kompeten, dan berwawasan lingkungan.
-                </p>
-                <a href="#misi" class="inline-flex items-center text-base font-semibold text-[#3C5148] hover:text-[#678E4D]">
-                    Misi
-                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path d="M9 5l7 7-7 7" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
+  <div class="container mx-auto px-4 md:px-0 md:-mt-16 -mt-0 relative z-10 flex justify-center"> {{-- ✅ -mt hanya di md+ --}}
+    <div data-aos="zoom-in" class="bg-white rounded-2xl shadow-xl p-4 md:p-6 text-center max-w-xl w-full">
+      <p class="text-[#B2C583] font-medium mb-2 flex items-center justify-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+          <path d="M12 14l6.16-3.422A12.083 12.083 0 016 8.36"/>
+        </svg>
+        Visi dan Misi
+      </p>
+      <h3 class="text-2xl md:text-3xl font-bold text-[#678E4D] mb-6">Visi Membangun Masa Depan</h3>
+      <p class="text-[#3C5148] text-lg md:text-xl mb-8">
+        Menghasilkan peserta didik yang unggul, berkarakter, kompeten, dan berwawasan lingkungan.
+      </p>
+      <a href="#misi" class="inline-flex items-center text-base font-semibold text-[#3C5148] hover:text-[#678E4D]">
+        Misi
+        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
 
     {{-- Info PKL --}}
     <section class="py-20 px-6 md:px-12 lg:px-16 bg-white relative">

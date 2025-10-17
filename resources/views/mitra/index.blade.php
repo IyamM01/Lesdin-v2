@@ -121,11 +121,6 @@
             </a>
           </div>
         @endforeach
-      </div>
-
-      {{-- Pagination --}}
-      <div class="swiper-pagination mt-4"></div>
-    </div>
   </div>
 </section>
 
@@ -136,17 +131,27 @@
             {{-- Header --}}
             <h2 class="text-white text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6">List Perusahaan</h2>
 
-            {{-- Filter Buttons --}}
-            <div class="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8">
-                <button class="filter-btn active px-4 sm:px-6 py-2 sm:py-2.5 bg-[#678E4D] text-white rounded-full text-xs sm:text-sm font-medium hover:bg-[#5a7842] transition-colors min-h-[44px]" data-filter="all">
-                    SEMUA
-                </button>
-                @foreach($jurusans as $jurusan)
-                    <button class="filter-btn px-4 sm:px-6 py-2 sm:py-2.5 bg-[#D9D9D9] text-[#2D3E34] rounded-full text-xs sm:text-sm font-medium hover:bg-[#5a7842] hover:text-white transition-colors min-h-[44px]" data-filter="{{ $jurusan->kode_jurusan }}">
-                        {{ $jurusan->kode_jurusan }}
-                    </button>
-                @endforeach
-            </div>
+            {{-- Filter Buttons (scrollable on mobile) --}}
+<div class="relative -mx-4 sm:mx-0">
+  <div class="flex flex-nowrap gap-2 sm:gap-3 mb-6 sm:mb-8 overflow-x-auto scroll-smooth px-4 sm:px-0 snap-x snap-mandatory">
+    <button
+      class="filter-btn active flex-shrink-0 snap-start px-4 sm:px-6 py-2 sm:py-2.5 bg-[#678E4D] text-white rounded-full text-xs sm:text-sm font-medium hover:bg-[#5a7842] transition-colors min-h-[44px]"
+      data-filter="all"
+    >
+      SEMUA
+    </button>
+
+    @foreach($jurusans as $jurusan)
+      <button
+        class="filter-btn flex-shrink-0 snap-start px-4 sm:px-6 py-2 sm:py-2.5 bg-[#D9D9D9] text-[#2D3E34] rounded-full text-xs sm:text-sm font-medium hover:bg-[#5a7842] hover:text-white transition-colors min-h-[44px]"
+        data-filter="{{ $jurusan->kode_jurusan }}"
+      >
+        {{ $jurusan->kode_jurusan }}
+      </button>
+    @endforeach
+  </div>
+</div>
+
 
             {{-- Company Cards Grid --}}
             <div id="company-list" class="space-y-4 sm:space-y-6">
