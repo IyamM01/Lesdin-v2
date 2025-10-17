@@ -9,7 +9,6 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Registration;
-use Illuminate\Support\Facades\Storage;
 
 class RegistrationNotification extends Mailable
 {
@@ -53,22 +52,32 @@ class RegistrationNotification extends Mailable
     public function attachments(): array
     {
         $attachments = [];
-        
-        // Load dokumen pendukung siswa
-        $dokumen = $this->registration->siswa->dokumenPendukung;
-        
+
+        // Ambil dokumen pendukung siswa
+        $dokumen = $this->registration->siswa->dokumenPendukung ?? null;
+
         if ($dokumen) {
-            // Attach CV jika ada
+            // ==== Attach Surat Pengantar jika ada ====
+            if ($dokumen->surat_pengantar) {
+                $suratPath = storage_path('app/public/dokumen/surat_pengantar/' . $dokumen->surat_pengantar);
+                if (file_exists($suratPath)) {
+                    $attachments[] = Attachment::fromPath($suratPath)
+                        ->as('Surat_Pengantar_' . $this->registration->siswa->name . '.' . pathinfo($suratPath, PATHINFO_EXTENSION))
+                        ->withMime(mime_content_type($suratPath));
+                }
+            }
+
+            // ==== Attach CV jika ada ====
             if ($dokumen->cv) {
                 $cvPath = storage_path('app/public/dokumen/cv/' . $dokumen->cv);
                 if (file_exists($cvPath)) {
                     $attachments[] = Attachment::fromPath($cvPath)
-                        ->as('CV_' . $this->registration->siswa->name . '.pdf')
-                        ->withMime('application/pdf');
+                        ->as('CV_' . $this->registration->siswa->name . '.' . pathinfo($cvPath, PATHINFO_EXTENSION))
+                        ->withMime(mime_content_type($cvPath));
                 }
             }
         }
-        
+
         return $attachments;
     }
 }
