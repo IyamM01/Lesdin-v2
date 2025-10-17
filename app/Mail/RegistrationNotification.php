@@ -6,8 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Registration;
+use Illuminate\Support\Facades\Storage;
 
 class RegistrationNotification extends Mailable
 {
@@ -50,6 +52,23 @@ class RegistrationNotification extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $attachments = [];
+        
+        // Load dokumen pendukung siswa
+        $dokumen = $this->registration->siswa->dokumenPendukung;
+        
+        if ($dokumen) {
+            // Attach CV jika ada
+            if ($dokumen->cv) {
+                $cvPath = storage_path('app/public/dokumen/cv/' . $dokumen->cv);
+                if (file_exists($cvPath)) {
+                    $attachments[] = Attachment::fromPath($cvPath)
+                        ->as('CV_' . $this->registration->siswa->name . '.pdf')
+                        ->withMime('application/pdf');
+                }
+            }
+        }
+        
+        return $attachments;
     }
 }

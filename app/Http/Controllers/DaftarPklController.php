@@ -249,8 +249,8 @@ class DaftarPklController extends Controller
             'tanggal_daftar' => now(),
         ]);
 
-        // Load relationships untuk email
-        $registration->load(['siswa.jurusan', 'mitra1', 'mitra2']);
+        // Load relationships untuk email (termasuk dokumen untuk attachment)
+        $registration->load(['siswa.jurusan', 'siswa.dokumenPendukung', 'mitra1', 'mitra2']);
 
         // Kirim email ke perusahaan pilihan 1
         if ($registration->mitra1 && $registration->mitra1->email) {
