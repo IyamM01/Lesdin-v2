@@ -25,7 +25,7 @@
                     </a>
                     <a href="{{ route('daftar-pkl.index4') }}" class="flex items-center text-white hover:bg-[#32453D] rounded px-3 py-2 transition">
                         <span class="w-2 h-2 bg-[#F4F6F4] rounded-full mr-3"></span>
-                        <span class="text-sm">Permintaan</span>
+                        <span class="text-sm">Persetujuan</span>
                     </a>
                 </nav>
             </div>
