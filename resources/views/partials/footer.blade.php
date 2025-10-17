@@ -83,8 +83,8 @@
                     <polyline points="12 6 12 12 16 14"/>
                 </svg>
                 <div>
-                    <p>Senin : 07.00 WIB - 15.00 WIB</p>
-                    <p>Jumat : 07.00 WIB - 15.00 WIB</p>
+                    <p>Senin-Selasa : 07.00 WIB - 15.30 WIB</p>
+                    <p>Jumat : 07.00 WIB - 14.00 WIB</p>
                 </div>
             </div>
         </div>
