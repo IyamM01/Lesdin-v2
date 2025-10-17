@@ -1,12 +1,12 @@
 <div class="font-poppins text-gray-800">
-    {{-- Hero Section --}}
+    {{-- ===================== HERO SECTION ===================== --}}
     <section class="relative h-screen w-full overflow-hidden">
         <img src="{{ asset('images/bg-sekolah.png') }}" alt="Hero Image"
              class="absolute inset-0 w-full h-full object-cover object-center" />
         <div class="absolute inset-0 bg-black/50"></div>
 
         <div data-aos="fade-up" data-aos-duration="1000"
-             class="relative z-10 flex flex-col items-start justify-center h-full text-white max-w-full px-18">
+             class="relative z-10 flex flex-col items-start justify-center h-full text-white max-w-full px-8 md:px-16">
             <a href="{{ url('/mitra') }}"
                class="bg-[#3C5148] hover:bg-[#678E4D] text-sm font-semibold px-6 py-2 rounded-full shadow-md transition mb-6 inline-flex items-center">
                 Info PKL Baca Selengkapnya
@@ -28,20 +28,20 @@
         </div>
     </section>
 
-    {{-- Running Logo Section - Pure CSS Animation --}}
+    {{-- ===================== RUNNING LOGO SECTION ===================== --}}
     <section class="bg-white py-6 overflow-hidden">
         <div class="logo-slider">
             <div class="logo-track">
                 @php
                     $logos = [
-                        'citra.png','multiintegra.png','gama.png', 'mediakreatif.png', 
+                        'citra.png','multiintegra.png','gama.png', 'mediakreatif.png',
                         'nutrifood.png', 'panasonic.webp', 'teknologinusantara.png', 'jogjatechnopark.jpg',
                     ];
                 @endphp
                 @for($i = 0; $i < 2; $i++)
                     @foreach($logos as $logo)
                         <div class="logo-item">
-                            <img src="{{ asset('images/'.$logo) }}" alt="Logo Mitra" 
+                            <img src="{{ asset('images/'.$logo) }}" alt="Logo Mitra"
                                  class="w-20 h-10 object-contain">
                         </div>
                     @endforeach
@@ -51,79 +51,116 @@
     </section>
 
     <style>
-        .logo-slider {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-        
+        .logo-slider { width: 100%; overflow: hidden; position: relative; }
         .logo-track {
             display: flex;
             width: max-content;
             animation: scroll 20s linear infinite;
         }
-        
-        .logo-item {
-            flex-shrink: 0;
-            margin: 0 2rem;
-        }
-        
+        .logo-item { flex-shrink: 0; margin: 0 2rem; }
         @keyframes scroll {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
-        
-        /* Pause on hover (optional) */
-        .logo-track:hover {
-            animation-play-state: paused;
-        }
+        .logo-track:hover { animation-play-state: paused; }
     </style>
 
-    {{-- Tentang Sekolah + Visi Misi --}}
-<section class="w-full relative pb-24 md:pb-0"> {{-- ✅ tambahkan pb-24 untuk spasi di mobile --}}
-  <div class="relative w-full h-[300px] md:h-[400px] overflow-hidden">
-    <img src="{{ asset('images/bg-sekolah-2.png') }}" alt="Foto Sekolah"
-         class="absolute inset-0 w-full h-full object-cover object-center" />
+    {{-- ===================== TENTANG SEKOLAH + VISI MISI ===================== --}}
+    <section class="w-full relative pb-24 md:pb-0">
+        <div class="relative w-full h-[300px] md:h-[400px] overflow-hidden">
+            <img src="{{ asset('images/bg-sekolah-2.png') }}" alt="Foto Sekolah"
+                 class="absolute inset-0 w-full h-full object-cover object-center" />
 
-    <div data-aos="fade-left" class="absolute top-8 right-8 md:right-24 bg-[#3C5148] bg-opacity-95 rounded-xl shadow-lg p-6 max-w-md text-white">
-      <h3 class="text-lg md:text-2xl font-bold mb-2">SMK Negeri 2 Depok Sleman</h3>
-      <p class="text-sm md:text-base leading-relaxed">
-        SMK Negeri 2 Depok Sleman adalah sebuah sekolah menengah kejuruan yang berlokasi di Kabupaten Sleman, Daerah Istimewa Yogyakarta. Sekolah ini, dahulu bernama STM Pembangunan Yogyakarta, diresmikan pada tanggal 29 Juni 1972 oleh Presiden Soeharto. 
-      </p>
-    </div>
-  </div>
+            <div data-aos="fade-left" class="absolute top-8 right-8 md:right-24 bg-[#3C5148] bg-opacity-95 rounded-xl shadow-lg p-6 max-w-md text-white">
+                <h3 class="text-lg md:text-2xl font-bold mb-2">SMK Negeri 2 Depok Sleman</h3>
+                <p class="text-sm md:text-base leading-relaxed">
+                    SMK Negeri 2 Depok Sleman adalah sekolah kejuruan yang berlokasi di Kabupaten Sleman, Yogyakarta.
+                    Didirikan pada 29 Juni 1972 oleh Presiden Soeharto dengan nama STM Pembangunan Yogyakarta,
+                    sekolah ini terus berkomitmen mencetak generasi unggul dan siap kerja.
+                </p>
+            </div>
+        </div>
 
-  <div class="container mx-auto px-4 md:px-0 md:-mt-16 -mt-0 relative z-10 flex justify-center"> {{-- ✅ -mt hanya di md+ --}}
-    <div data-aos="zoom-in" class="bg-white rounded-2xl shadow-xl p-4 md:p-6 text-center max-w-xl w-full">
-      <p class="text-[#B2C583] font-medium mb-2 flex items-center justify-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/>
-          <path d="M22 10v6"/>
-          <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>
-        </svg>
-        Visi dan Misi
-      </p>
-      <h3 class="text-2xl md:text-3xl font-bold text-[#678E4D] mb-6">Visi Membangun Masa Depan</h3>
-      <p class="text-[#3C5148] text-lg md:text-xl mb-8">
-        Menghasilkan peserta didik yang unggul, berkarakter, kompeten, dan berwawasan lingkungan.
-      </p>
-      <a href="#misi" class="inline-flex items-center text-base font-semibold text-[#3C5148] hover:text-[#678E4D]">
-        Misi
-        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-    </div>
-  </div>
-</section>
+        {{-- VISI MISI CARD --}}
+        <div class="container mx-auto px-4 md:px-0 md:-mt-16 -mt-0 relative z-10 flex justify-center">
+            <div data-aos="zoom-in" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 text-center max-w-xl w-full">
+                <p class="text-[#B2C583] font-medium mb-2 flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+                    </svg>
+                    Visi dan Misi
+                </p>
 
-    {{-- Info PKL --}}
+                <h3 id="visi-misi-title" class="text-2xl md:text-3xl font-bold text-[#678E4D] mb-6 transition-all duration-300">
+                    Visi Membangun Masa Depan
+                </h3>
+
+                <p id="visi-misi-text" class="text-[#3C5148] text-lg md:text-xl mb-8 transition-all duration-300">
+                    Menghasilkan peserta didik yang unggul, berkarakter, kompeten, dan berwawasan lingkungan.
+                </p>
+
+                <button id="switch-btn"
+                    class="inline-flex items-center text-base font-semibold text-[#3C5148] hover:text-[#678E4D] transition-colors">
+                    Misi
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        {{-- SCRIPT SWITCH VISI/MISI --}}
+        <script>
+          const title = document.getElementById('visi-misi-title');
+          const text = document.getElementById('visi-misi-text');
+          const btn = document.getElementById('switch-btn');
+          let showingVisi = true;
+
+          const visi = {
+            title: 'Visi Membangun Masa Depan',
+            text: 'Menghasilkan peserta didik yang unggul, berkarakter, kompeten, dan berwawasan lingkungan.',
+            button: 'Misi'
+          };
+
+          const misi = {
+            title: 'Misi SMK Negeri 2 Depok Sleman',
+            text: `Melaksanakan proses pendidikan dan pelatihan melalui pembelajaran yang berbasis Teaching Factory level-3.`,
+            button: 'Visi'
+          };
+
+          btn.addEventListener('click', () => {
+            showingVisi = !showingVisi;
+            title.style.opacity = 0;
+            text.style.opacity = 0;
+
+            setTimeout(() => {
+              if (showingVisi) {
+                title.innerText = visi.title;
+                text.innerHTML = visi.text;
+                btn.innerHTML = `${visi.button}
+                  <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 h-4 w-4" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path d="M9 5l7 7-7 7" />
+                  </svg>`;
+              } else {
+                title.innerText = misi.title;
+                text.innerHTML = misi.text;
+                btn.innerHTML = `${misi.button}
+                  <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 h-4 w-4" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path d="M9 5l7 7-7 7" />
+                  </svg>`;
+              }
+              title.style.opacity = 1;
+              text.style.opacity = 1;
+            }, 200);
+          });
+        </script>
+    </section>
+
+    {{-- ===================== INFO PKL ===================== --}}
     <section class="py-20 px-6 md:px-12 lg:px-16 bg-white relative">
         <div class="absolute left-0 top-0 w-[25%] h-full bg-[#B7CDB0] z-0"></div>
 
@@ -138,9 +175,7 @@
                 <p class="text-[#678E4D] text-sm font-medium flex items-center gap-2 mb-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/>
-                        <path d="M22 10v6"/>
-                        <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>
+                        <path d="M12 14l9-5-9-5-9 5 9 5z"/>
                     </svg>
                     Info Praktik Kerja Lapangan
                 </p>
@@ -154,7 +189,7 @@
         </div>
     </section>
 
-    {{-- Statistik Mitra --}}
+    {{-- ===================== STATISTIK MITRA ===================== --}}
     <section class="py-12 bg-white">
         <div class="max-w-3xl mx-auto text-center">
             <p class="text-[#B2C583] text-sm font-medium flex items-center gap-2 justify-center mb-4">
