@@ -1,24 +1,16 @@
 {{-- resources/views/partials/navbar.blade.php --}}
-@php
-  // Cache-busting aman (closure, bukan function global)
-  $bust = function (string $path) {
-      $full = public_path($path);
-      return asset($path) . (file_exists($full) ? ('?v=' . filemtime($full)) : '');
-  };
-@endphp
-
 <style>
   html, body { overflow-x: hidden; }
 </style>
 
-<div class="fixed inset-x-0 top-4 z-50">
-  <nav class="font-poppins bg-white/95 backdrop-blur rounded-full shadow-xl px-4 sm:px-6 py-3 flex items-center w-full max-w-7xl mx-auto justify-between">
+<div class="fixed inset-x-0 top-4 z-[100]"> {{-- z-index dinaikkan --}}
+  <nav class="font-poppins bg-white/95 backdrop-blur rounded-full shadow-xl px-4 sm:px-6 py-3 flex items-center w-full max-w-7xl mx-auto justify-between pointer-events-auto">
     {{-- Logo Sekolah + Partner --}}
     <div class="flex items-center gap-5 flex-shrink-0">
       <a href="{{ route('index') }}" class="block">
-        <img src="{{ $bust('images/logo-sekolah.png') }}" alt="Logo Sekolah" class="h-10 sm:h-12 object-contain">
+        <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo Sekolah" class="h-10 sm:h-12 object-contain">
       </a>
-      <img src="{{ $bust('images/logo-partner.png') }}" alt="Logo Partner" class="h-7 sm:h-9 lg:h-10 object-contain">
+      <img src="{{ asset('images/logo-partner.png') }}" alt="Logo Partner" class="h-7 sm:h-9 lg:h-10 object-contain">
     </div>
 
     {{-- Desktop Menu --}}
@@ -95,6 +87,7 @@
   </div>
 </div>
 
+{{-- Script --}}
 <script>
   (function () {
     const toggle = document.getElementById('menu-toggle');
@@ -126,9 +119,7 @@
     });
 
     window.addEventListener('resize', () => {
-      if (window.innerWidth >= 768 && isOpen) {
-        closeMenu(); isOpen = false;
-      }
+      if (window.innerWidth >= 768 && isOpen) { closeMenu(); isOpen = false; }
     });
   })();
 </script>

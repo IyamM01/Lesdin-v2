@@ -1,43 +1,35 @@
-@extends('layouts.app')
-
-@section('content')
 <div class="font-poppins text-gray-800">
-    @php
-      // Helper cache-busting berdasar filemtime di public/
-      function bust($path) {
-        $full = public_path($path);
-        return asset($path) . (file_exists($full) ? ('?v=' . filemtime($full)) : '');
-      }
-    @endphp
+{{-- ===================== HERO SECTION ===================== --}}
+<section class="relative h-screen w-full overflow-hidden">
+  {{-- ★ Background image: tidak menangkap klik --}}
+  <img src="{{ asset('images/bg-sekolah.png') }}" alt="Hero Image"
+       class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none" />
+  {{-- ★ Overlay gelap: tidak menangkap klik --}}
+  <div class="absolute inset-0 bg-black/50 pointer-events-none"></div>
 
-    {{-- ===================== HERO SECTION ===================== --}}
-    <section class="relative h-screen w-full overflow-hidden">
-        <img src="{{ bust('images/bg-sekolah.png') }}" alt="Hero Image"
-             class="absolute inset-0 w-full h-full object-cover object-center" />
-        <div class="absolute inset-0 bg-black/50"></div>
+  {{-- ★ Konten: boleh menangkap klik --}}
+  <div data-aos="fade-up" data-aos-duration="1000"
+       class="relative z-10 flex flex-col items-start justify-center h-full text-white max-w-full px-8 md:px-16 pointer-events-auto">
+    <a href="{{ url('/mitra') }}"
+       class="bg-[#3C5148] hover:bg-[#678E4D] text-sm font-semibold px-6 py-2 rounded-full shadow-md transition mb-6 inline-flex items-center">
+      Info PKL Baca Selengkapnya
+      <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24"
+           stroke="currentColor" stroke-width="2">
+        <path d="M9 5l7 7-7 7" />
+      </svg>
+    </a>
 
-        <div data-aos="fade-up" data-aos-duration="1000"
-             class="relative z-10 flex flex-col items-start justify-center h-full text-white max-w-full px-8 md:px-16">
-            <a href="{{ url('/mitra') }}"
-               class="bg-[#3C5148] hover:bg-[#678E4D] text-sm font-semibold px-6 py-2 rounded-full shadow-md transition mb-6 inline-flex items-center">
-                Info PKL Baca Selengkapnya
-                <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor" stroke-width="2">
-                    <path d="M9 5l7 7-7 7" />
-                </svg>
-            </a>
+    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-lg"
+        data-aos="fade-up" data-aos-delay="300">
+      SMK NEGERI 2 DEPOK
+    </h1>
 
-            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-lg"
-                data-aos="fade-up" data-aos-delay="300">
-                SMK NEGERI 2 DEPOK
-            </h1>
-
-            <p class="text-lg font-light mt-2 drop-shadow"
-               data-aos="fade-up" data-aos-delay="500">
-                Unggul, Berkarakter, Kompeten
-            </p>
-        </div>
-    </section>
+    <p class="text-lg font-light mt-2 drop-shadow"
+       data-aos="fade-up" data-aos-delay="500">
+      Unggul, Berkarakter, Kompeten
+    </p>
+  </div>
+</section>
 
     {{-- ===================== RUNNING LOGO SECTION ===================== --}}
     <section class="bg-white py-6 overflow-hidden">
@@ -52,7 +44,7 @@
                 @for($i = 0; $i < 2; $i++)
                     @foreach($logos as $logo)
                         <div class="logo-item">
-                            <img src="{{ bust('images/'.$logo) }}" alt="Logo Mitra"
+                            <img src="{{ asset('images/'.$logo) }}" alt="Logo Mitra"
                                  class="w-20 h-10 object-contain">
                         </div>
                     @endforeach
@@ -63,16 +55,23 @@
 
     <style>
         .logo-slider { width: 100%; overflow: hidden; position: relative; }
-        .logo-track { display: flex; width: max-content; animation: scroll 20s linear infinite; }
+        .logo-track {
+            display: flex;
+            width: max-content;
+            animation: scroll 20s linear infinite;
+        }
         .logo-item { flex-shrink: 0; margin: 0 2rem; }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
         .logo-track:hover { animation-play-state: paused; }
     </style>
 
     {{-- ===================== TENTANG SEKOLAH + VISI MISI ===================== --}}
     <section class="w-full relative pb-24 md:pb-0">
         <div class="relative w-full h-[300px] md:h-[400px] overflow-hidden">
-            <img src="{{ bust('images/bg-sekolah-2.png') }}" alt="Foto Sekolah"
+            <img src="{{ asset('images/bg-sekolah-2.png') }}" alt="Foto Sekolah"
                  class="absolute inset-0 w-full h-full object-cover object-center" />
 
             <div data-aos="fade-left" class="absolute top-8 right-8 md:right-24 bg-[#3C5148] bg-opacity-95 rounded-xl shadow-lg p-6 max-w-md text-white">
@@ -171,7 +170,7 @@
         <div class="flex flex-col md:flex-row items-center max-w-5xl mx-auto gap-8 md:gap-12 relative z-10">
             <div data-aos="fade-right" class="relative md:w-1/2 w-full flex-shrink-0 flex justify-start">
                 <div class="absolute right-32 bottom-0 w-[90%] h-[100%] bg-[#B7CDB0] rounded-lg z-0"></div>
-                <img src="{{ bust('images/PakKepsek.jpg') }}" alt="Foto Sekolah 3"
+                <img src="{{ asset('images/PakKepsek.jpg') }}" alt="Foto Sekolah 3"
                     class="rounded-lg shadow-lg relative z-10 w-[370px] h-[300px] object-cover" />
             </div>
 
