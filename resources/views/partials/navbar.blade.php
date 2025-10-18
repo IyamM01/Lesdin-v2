@@ -1,4 +1,12 @@
-{{-- resources/views/layouts/navbar.blade.php --}}
+{{-- resources/views/partials/navbar.blade.php --}}
+@php
+  // Cache-busting aman (closure, bukan function global)
+  $bust = function (string $path) {
+      $full = public_path($path);
+      return asset($path) . (file_exists($full) ? ('?v=' . filemtime($full)) : '');
+  };
+@endphp
+
 <style>
   html, body { overflow-x: hidden; }
 </style>
@@ -8,9 +16,9 @@
     {{-- Logo Sekolah + Partner --}}
     <div class="flex items-center gap-5 flex-shrink-0">
       <a href="{{ route('index') }}" class="block">
-        <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo Sekolah" class="h-10 sm:h-12 object-contain">
+        <img src="{{ $bust('images/logo-sekolah.png') }}" alt="Logo Sekolah" class="h-10 sm:h-12 object-contain">
       </a>
-      <img src="{{ asset('images/logo-partner.png') }}" alt="Logo Partner" class="h-7 sm:h-9 lg:h-10 object-contain">
+      <img src="{{ $bust('images/logo-partner.png') }}" alt="Logo Partner" class="h-7 sm:h-9 lg:h-10 object-contain">
     </div>
 
     {{-- Desktop Menu --}}
@@ -55,7 +63,7 @@
     </button>
   </nav>
 
-  {{-- ✅ Mobile Menu Panel (lebih jelas, tetap elegan) --}}
+  {{-- Mobile Menu Panel --}}
   <div
     id="mobile-menu"
     class="md:hidden absolute left-0 right-0 mx-auto mt-3 w-[92%] max-w-7xl origin-top scale-y-0 opacity-0 pointer-events-none
@@ -87,7 +95,6 @@
   </div>
 </div>
 
-{{-- Script --}}
 <script>
   (function () {
     const toggle = document.getElementById('menu-toggle');
