@@ -23,10 +23,10 @@ class DaftarPklController extends Controller
     {
         // Ambil data siswa berdasarkan user yang login
         $siswa = Siswa::where('user_id', Auth::id())->with('jurusan')->first();
-        
+
         // Cek jadwal pendaftaran
         $jadwalData = $this->cekJadwalPendaftaran();
-        
+
         return view('daftar-pkl.index', array_merge(compact('siswa'), $jadwalData));
     }
 
@@ -64,20 +64,20 @@ class DaftarPklController extends Controller
         }])
         ->orderBy('name')
         ->get();
-        
+
         // Ambil data siswa
         $siswa = Siswa::where('user_id', Auth::id())->first();
-        
+
         // Cek jadwal pendaftaran
         $jadwalData = $this->cekJadwalPendaftaran();
-        
+
         // Cek apakah siswa sudah punya registration
         $registration = Registration::where('siswa_id', $siswa->id)->first();
-        
+
         // Ambil pilihan yang sudah disimpan
         $pilihan1 = $registration->mitra_1_id ?? null;
         $pilihan2 = $registration->mitra_2_id ?? null;
-        
+
         return view('daftar-pkl.index2', array_merge(compact('mitras', 'pilihan1', 'pilihan2'), $jadwalData));
     }
 
@@ -97,10 +97,10 @@ class DaftarPklController extends Controller
         ]);
 
         $siswa = Siswa::where('user_id', Auth::id())->firstOrFail();
-        
+
         // Cek apakah ada jadwal pendaftaran yang aktif
         $jadwalAktif = JadwalPendaftaran::active()->first();
-        
+
         if (!$jadwalAktif) {
             return redirect()->back()
                 ->with('error', 'Belum ada jadwal pendaftaran yang aktif saat ini.');
@@ -110,7 +110,7 @@ class DaftarPklController extends Controller
         $mitra1 = Mitra::withCount(['registrationsDiterima' => function($query) {
             $query->where('status', 'diterima');
         }])->findOrFail($validated['pilihan1']);
-        
+
         if ($mitra1->kuota > 0 && $mitra1->registrations_diterima_count >= $mitra1->kuota) {
             return redirect()->back()
                 ->with('error', 'Kuota perusahaan pilihan 1 (' . $mitra1->name . ') sudah penuh. Silakan pilih perusahaan lain.');
@@ -121,7 +121,7 @@ class DaftarPklController extends Controller
             $mitra2 = Mitra::withCount(['registrationsDiterima' => function($query) {
                 $query->where('status', 'diterima');
             }])->findOrFail($validated['pilihan2']);
-            
+
             if ($mitra2->kuota > 0 && $mitra2->registrations_diterima_count >= $mitra2->kuota) {
                 return redirect()->back()
                     ->with('error', 'Kuota perusahaan pilihan 2 (' . $mitra2->name . ') sudah penuh. Silakan pilih perusahaan lain.');
@@ -150,45 +150,83 @@ class DaftarPklController extends Controller
     {
         $siswa = Siswa::where('user_id', Auth::id())->first();
         $dokumen = DokumenPendukung::where('siswa_id', $siswa->id)->first();
-        
+
         // Cek jadwal pendaftaran
         $jadwalData = $this->cekJadwalPendaftaran();
-        
+
         return view('daftar-pkl.index3', array_merge(compact('dokumen'), $jadwalData));
     }
 
     /**
-     * Upload dan simpan dokumen pendukung
+     * Upload dan simpan dokumen pendukung (VALIDASI KONDISIONAL)
      */
     public function uploadDokumen(Request $request)
     {
-        $request->validate([
-            'surat_pengantar' => 'required|file|mimes:pdf,doc,docx|max:2048',
-            'cv' => 'required|file|mimes:pdf,doc,docx|max:2048',
-        ]);
+        $siswa   = auth()->user()->siswa;
+        $dokumen = DokumenPendukung::where('siswa_id', $siswa->id)->first();
 
-        $siswa = auth()->user()->siswa;
-        
-        // Upload Surat Pengantar
-        $suratPengantar = $request->file('surat_pengantar');
-        $suratPengantarName = $siswa->nis . '_surat_pengantar_' . time() . '.' . $suratPengantar->getClientOriginalExtension();
-        $suratPengantarPath = $suratPengantar->storeAs('dokumen/surat_pengantar', $suratPengantarName, 'public');
+        // Rules kondisional: jika sudah ada file → nullable; jika belum → required
+        $rules = [
+            'surat_pengantar' => [
+                $dokumen && $dokumen->surat_pengantar ? 'nullable' : 'required',
+                'file','mimes:pdf,doc,docx','max:2048'
+            ],
+            'cv' => [
+                $dokumen && $dokumen->cv ? 'nullable' : 'required',
+                'file','mimes:pdf,doc,docx','max:2048'
+            ],
+        ];
+        $request->validate($rules);
 
-        // Upload CV
-        $cv = $request->file('cv');
-        $cvName = $siswa->nis . '_cv_' . time() . '.' . $cv->getClientOriginalExtension();
-        $cvPath = $cv->storeAs('dokumen/cv', $cvName, 'public');
+        // Jika tidak ada file diupload & memang belum ada di DB → tolak
+        if (
+            !$request->hasFile('surat_pengantar') &&
+            !$request->hasFile('cv') &&
+            (!$dokumen || (!$dokumen->surat_pengantar && !$dokumen->cv))
+        ) {
+            return back()->withErrors([
+                'surat_pengantar' => 'Surat pengantar wajib diunggah.',
+                'cv'              => 'CV wajib diunggah.',
+            ])->withInput();
+        }
 
-        // Simpan atau update dokumen
+        // Siapkan nama file hasil akhir (tetap pakai lama jika tidak ada upload baru)
+        $suratPengantarName = $dokumen->surat_pengantar ?? null;
+        $cvName             = $dokumen->cv ?? null;
+
+        // --- Proses Surat Pengantar ---
+        if ($request->hasFile('surat_pengantar')) {
+            // Hapus lama jika ada
+            if ($suratPengantarName && Storage::disk('public')->exists('dokumen/surat_pengantar/'.$suratPengantarName)) {
+                Storage::disk('public')->delete('dokumen/surat_pengantar/'.$suratPengantarName);
+            }
+            $file = $request->file('surat_pengantar');
+            $suratPengantarName = $siswa->nis . '_surat_pengantar_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('dokumen/surat_pengantar', $suratPengantarName, 'public');
+        }
+
+        // --- Proses CV ---
+        if ($request->hasFile('cv')) {
+            if ($cvName && Storage::disk('public')->exists('dokumen/cv/'.$cvName)) {
+                Storage::disk('public')->delete('dokumen/cv/'.$cvName);
+            }
+            $file = $request->file('cv');
+            $cvName = $siswa->nis . '_cv_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('dokumen/cv', $cvName, 'public');
+        }
+
+        // Simpan / update di DB
         DokumenPendukung::updateOrCreate(
             ['siswa_id' => $siswa->id],
             [
-                'surat_pengantar' => basename($suratPengantarPath),
-                'cv' => basename($cvPath),
+                'surat_pengantar' => $suratPengantarName,
+                'cv'              => $cvName,
             ]
         );
 
-        return redirect()->route('daftar-pkl.index4')->with('dokumen_uploaded', 'Dokumen berhasil diupload! Silakan lanjutkan ke tahap persetujuan.');
+        return redirect()
+            ->route('daftar-pkl.index4')
+            ->with('dokumen_uploaded', 'Dokumen berhasil diproses! Silakan lanjut ke tahap persetujuan.');
     }
 
     /**
@@ -197,15 +235,15 @@ class DaftarPklController extends Controller
     public function index4()
     {
         $jadwalData = $this->cekJadwalPendaftaran();
-        
+
         $siswa = Siswa::where('user_id', Auth::id())->first();
-        
+
         // Cek apakah sudah ada registration
         $registration = Registration::where('siswa_id', $siswa->id)->first();
-        
+
         // Cek apakah dokumen sudah lengkap
         $dokumen = DokumenPendukung::where('siswa_id', $siswa->id)->first();
-        
+
         return view('daftar-pkl.index4', array_merge(compact('siswa', 'registration', 'dokumen'), $jadwalData));
     }
 
@@ -222,7 +260,7 @@ class DaftarPklController extends Controller
         ]);
 
         $siswa = Siswa::where('user_id', Auth::id())->firstOrFail();
-        
+
         // Validasi: Pastikan sudah ada registration (dibuat di step 2)
         $registration = Registration::where('siswa_id', $siswa->id)->first();
         if (!$registration) {
@@ -294,7 +332,7 @@ class DaftarPklController extends Controller
             }
         }
 
-        // Log untuk debugging (optional, bisa dihapus di production)
+        // Log untuk debugging
         Log::info('Pendaftaran PKL berhasil disubmit', [
             'siswa_id' => $siswa->id,
             'siswa_name' => $siswa->name,
@@ -312,50 +350,32 @@ class DaftarPklController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    public function create() { /* ... */ }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(Request $request) { /* ... */ }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+    public function show(string $id) { /* ... */ }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+    public function edit(string $id) { /* ... */ }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    public function update(Request $request, string $id) { /* ... */ }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+    public function destroy(string $id) { /* ... */ }
 
     /**
      * Helper: Cek status pendaftaran
@@ -365,14 +385,14 @@ class DaftarPklController extends Controller
         $jadwalAktif = JadwalPendaftaran::where('is_active', true)->first();
         $isPendaftaranBuka = false;
         $pesanPendaftaran = null;
-        
+
         if (!$jadwalAktif) {
             $pesanPendaftaran = 'Belum ada jadwal pendaftaran yang dibuka.';
         } else {
             $now = now();
             $mulai = $jadwalAktif->mulai_pendaftaran;
             $akhir = $jadwalAktif->akhir_pendaftaran;
-            
+
             if ($now->lt($mulai)) {
                 $pesanPendaftaran = 'Pendaftaran akan dibuka pada ' . $mulai->format('d M Y');
             } elseif ($now->gt($akhir)) {
@@ -381,7 +401,7 @@ class DaftarPklController extends Controller
                 $isPendaftaranBuka = true;
             }
         }
-        
+
         return compact('jadwalAktif', 'isPendaftaranBuka', 'pesanPendaftaran');
     }
 }
