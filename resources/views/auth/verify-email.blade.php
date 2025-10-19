@@ -1,31 +1,61 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verifikasi Email - SMK NEGERI 2 DEPOK SLEMAN</title>
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <link rel="icon" href="{{ asset('images/logo-sekolah.png') }}" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+</head>
+<body class="font-poppins antialiased text-gray-800">
+<div class="min-h-screen flex flex-col lg:flex-row">
+
+  {{-- Left: Carousel --}}
+  @includeWhen(true, 'auth.partials.left-carousel')
+
+  {{-- Right: Content --}}
+  <div class="flex-1 bg-gray-50 flex items-center justify-center p-4 lg:p-8">
+    <div class="w-full max-w-md">
+      <a href="{{ route('index') }}"
+         class="inline-flex items-center gap-2 text-[#3C5148] hover:text-[#678E4D] font-medium mb-6 transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span class="text-sm lg:text-base">Kembali ke Beranda</span>
+      </a>
+
+      <div class="text-start mb-6 lg:mb-8">
+        <h2 class="text-2xl lg:text-3xl font-bold text-[#3C5148] mb-2">Verifikasi Email</h2>
+        <p class="text-sm lg:text-base text-[#1B2727]">
+          Terima kasih sudah mendaftar! Sebelum mulai, klik tautan verifikasi yang kami kirim ke email Anda.
+          Jika belum menerima, minta kirim ulang di bawah.
+        </p>
+      </div>
+
+      @if (session('status') == 'verification-link-sent')
+        <div class="mb-4 text-sm text-green-600">Link verifikasi baru sudah kami kirim ke email Anda.</div>
+      @endif
+
+      <form method="POST" action="{{ route('verification.send') }}" class="space-y-4">
+        @csrf
+        <button type="submit"
+                class="w-full bg-[#3C5148] hover:bg-[#678E4D] text-white font-semibold py-3 rounded-lg focus:ring-2 focus:ring-green-600 focus:ring-offset-2 transition text-sm lg:text-base">
+          Kirim Ulang Email Verifikasi
+        </button>
+      </form>
+
+      <form method="POST" action="{{ route('logout') }}" class="mt-3">
+        @csrf
+        <button type="submit" class="w-full border border-[#D5DDDF] hover:bg-gray-50 text-[#3C5148] font-semibold py-3 rounded-lg transition text-sm lg:text-base">
+          Logout
+        </button>
+      </form>
     </div>
+  </div>
+</div>
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
-    @endif
-
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
-
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
-            </div>
-        </form>
-
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-
-            <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                {{ __('Log Out') }}
-            </button>
-        </form>
-    </div>
-</x-guest-layout>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script> AOS.init({ duration: 800, once: true }); </script>
+</body>
+</html>
